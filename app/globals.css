@@ -78,10 +78,6 @@
   --input: oklch(0.92 0.01 240);
   --ring: oklch(0.62 0.19 259);
 
-  --radius: 0.75rem;
-
-  --hero-bg: oklch(0.28 0.03 250);
-
   --radius: 1rem;
 }
 

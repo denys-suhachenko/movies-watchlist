@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { IBM_Plex_Mono, IBM_Plex_Sans, Merriweather } from 'next/font/google';
 
-import './globals.css';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+
+import './globals.css';
 
 const sans = IBM_Plex_Sans({
   subsets: ['latin'],

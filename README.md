@@ -23,6 +23,13 @@
 - Client Components for interactivity
 - App Router with nested layouts
 
+## API
+
+This project uses the TMDB API.
+https://www.themoviedb.org/
+
+This product uses the TMDB API but is not endorsed or certified by TMDB.
+
 ## Run
 
 npm install
