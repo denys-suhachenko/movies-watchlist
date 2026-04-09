@@ -1,4 +1,4 @@
-# Tech Community Platform (DOU-like)
+# MovieShelf — Movie Discovery & Watchlist App
 
 ## Stack
 
@@ -9,9 +9,11 @@
 
 ## Features
 
-- Articles feed
-- Jobs listing
-- About page
+- Movie discovery feed
+- Movie details pages
+- Personal watchlist
+- Add & review movies
+- Search & filters (via URL state)
 - Responsive UI
 
 ## Architecture
@@ -19,6 +21,7 @@
 - Feature-based structure
 - Server Components for data fetching
 - Client Components for interactivity
+- App Router with nested layouts
 
 ## Run
 
