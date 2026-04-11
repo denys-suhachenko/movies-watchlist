@@ -5,8 +5,9 @@ import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
+import { Genre } from '@/features/movies/types';
+
 import { GenreOption, GenresSelect } from './GenresSelect';
-import { Genre } from '@/lib/tmdb';
 
 type MoviesFiltersProps = {
   year?: string;

@@ -1,6 +1,6 @@
 import { MoviesGrid } from '@/components/movies';
 import { Pagination } from '@/components/movies/Pagination';
-import { fetchMovies } from '@/lib/tmdb';
+import { fetchMovies } from '@/features/movies/api';
 
 type MoviesAsyncProps = {
   query?: string;
