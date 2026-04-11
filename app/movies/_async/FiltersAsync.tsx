@@ -1,5 +1,5 @@
 import { MoviesFilters } from '@/components/movies/MoviesFilters';
-import { getGenres } from '@/lib/tmdb';
+import { getGenres } from '@/features/movies/api';
 
 type FiltersAsyncProps = {
   year?: string;

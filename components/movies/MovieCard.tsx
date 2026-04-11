@@ -2,10 +2,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Star } from 'lucide-react';
 
-import { MovieListItem } from '@/lib/tmdb';
-
 import { Card, CardContent } from '../ui/card';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { MovieListItem } from '@/features/movies/types';
 
 const POSTER_BLUR_DATA_URL =
   'data:image/svg+xml;base64,' +

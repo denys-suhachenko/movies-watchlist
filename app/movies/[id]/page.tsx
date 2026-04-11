@@ -1,9 +1,8 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { getMovie, getMovieCredits, getMovieRecommendations } from '@/lib/tmdb';
-import { MovieCard } from '@/components/movies';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Container from '@/components/layout/Container';
 import {
@@ -13,8 +12,12 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from '@/components/ui/carousel';
-import Link from 'next/link';
 import { formatRuntime } from '@/lib/utils';
+import {
+  getMovie,
+  getMovieCredits,
+  getMovieRecommendations,
+} from '@/features/movies/api';
 
 type MoviePageProps = {
   params: Promise<{ id: string }>;
@@ -43,7 +46,6 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
               alt={movie.title}
               fill
               className="object-cover opacity-50"
-              priority
             />
           ) : (
             <div className="bg-muted h-full w-full" />
@@ -64,6 +66,7 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                   height={450}
                   className="h-auto w-full object-cover shadow-2xl"
                   sizes="(max-width: 768px) 60vw, 300px"
+                  priority
                 />
               ) : (
                 <div className="bg-muted text-muted-foreground flex aspect-2/3 w-full items-center justify-center rounded-2xl text-sm">
@@ -90,8 +93,9 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                     key={genre.id}
                     variant="outline"
                     className="text-white"
+                    asChild
                   >
-                    {genre.name}
+                    <Link href={`/movies?genre=${genre.id}`}>{genre.name}</Link>
                   </Badge>
                 ))}
               </div>
