@@ -14,6 +14,7 @@ import {
   CarouselNext,
 } from '@/components/ui/carousel';
 import Link from 'next/link';
+import { formatRuntime } from '@/lib/utils';
 
 type MoviePageProps = {
   params: Promise<{ id: string }>;
@@ -79,12 +80,20 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
 
               <ul className="flex flex-wrap items-center gap-3 text-sm text-white">
                 <li>Release date: {movie.release_date}</li>
-                <li>Runtime: {movie.runtime}</li>
+                <li>Runtime: {formatRuntime(movie.runtime)}</li>
                 <li>Rating: {movie.vote_average.toFixed(1)}</li>
               </ul>
 
               <div className="flex flex-wrap gap-2 text-sm font-medium text-white">
-                {movie.genres.map((genre) => genre.name).join(' | ')}
+                {movie.genres.map((genre) => (
+                  <Badge
+                    key={genre.id}
+                    variant="outline"
+                    className="text-white"
+                  >
+                    {genre.name}
+                  </Badge>
+                ))}
               </div>
 
               <div className="text-white">
@@ -95,7 +104,10 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
               </div>
 
               <div className="flex gap-3 pt-2">
-                <Button asChild className="rounded-sm">
+                <Button
+                  asChild
+                  className="rounded-sm bg-yellow-300 text-black hover:bg-amber-200"
+                >
                   <Link
                     href={`https://www.imdb.com/title/${movie.imdb_id}`}
                     target="_blank"
