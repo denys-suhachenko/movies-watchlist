@@ -88,28 +88,29 @@ export function MoviesFilters({
       <Input
         value={selectedQuery}
         placeholder="Search movies..."
-        className="h-10 rounded-md border bg-white px-3 md:w-80"
+        className="rounded-sm border bg-white px-3 md:w-80"
         onChange={(e) => setSelectedQuery(e.target.value)}
       />
 
       <Input
         value={selectedYear}
         placeholder="Year"
-        className="h-10 w-full rounded-md border bg-white px-3 md:w-40"
+        className="w-full rounded-sm border bg-white px-3 md:w-40"
         onChange={(e) => setSelectedYear(e.target.value)}
       />
 
       <GenresSelect
         genres={normalizedGenres}
         value={selectedGenre}
+        className="w-full rounded-sm bg-white md:w-48"
         onChange={setSelectetGenre}
       />
 
-      <Button onClick={apply} disabled={!isDirty}>
+      <Button disabled={!isDirty} className="rounded-sm" onClick={apply}>
         Apply
       </Button>
 
-      <Button variant="outline" onClick={reset}>
+      <Button variant="outline" className="rounded-sm" onClick={reset}>
         Reset
       </Button>
     </div>

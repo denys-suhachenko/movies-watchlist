@@ -16,21 +16,29 @@ export type GenreOption = {
 type GenresSelectProps = {
   genres: GenreOption[];
   value: string;
+  className?: string;
   onChange: (value: string) => void;
 };
 
-export function GenresSelect({ genres, value, onChange }: GenresSelectProps) {
+export function GenresSelect({
+  genres,
+  value,
+  className,
+  onChange,
+}: GenresSelectProps) {
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger>
+      <SelectTrigger className={className}>
         <SelectValue placeholder="Select genre" />
       </SelectTrigger>
 
       <SelectContent>
-        <SelectItem value="all">All genres</SelectItem>
+        <SelectItem value="all" className="rounded-none">
+          All genres
+        </SelectItem>
 
         {genres.map((genre) => (
-          <SelectItem key={genre.id} value={genre.id}>
+          <SelectItem key={genre.id} value={genre.id} className="rounded-none">
             {genre.label}
           </SelectItem>
         ))}

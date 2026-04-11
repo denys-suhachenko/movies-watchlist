@@ -55,7 +55,7 @@ export default function FeaturedMovies() {
           </div>
         </div>
 
-        <div className="mt-10 grid gap-6 md:grid-cols-4">
+        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {featuredMovies.map((movie) => (
             <Card
               key={movie.id}

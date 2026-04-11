@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
     <>
       <section className="relative overflow-hidden border-b">
-        <div className="mx-auto grid min-h-[60vh] max-w-7xl items-center gap-12 px-4 py-8 md:grid-cols-2 md:py-0">
+        <div className="mx-auto grid min-h-[60vh] max-w-7xl items-center gap-12 px-4 py-8 lg:grid-cols-2 lg:py-0">
           <div className="md:py-8">
             <p className="text-primary text-sm font-medium">
               Discover. Save. Review.
@@ -46,7 +46,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="relative hidden md:block">
+          <div className="relative hidden lg:block">
             <div className="h-[560px] overflow-hidden">
               <div className="grid h-[860px] -translate-y-[100px] grid-cols-3 grid-rows-6 gap-5">
                 <div className="relative col-start-3 row-span-2 overflow-hidden rounded-[28px]">
@@ -114,9 +114,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="border-b bg-gray-50 py-12">
+      <section className="hidden border-b bg-gray-50 py-12 md:block">
         <div className="mx-auto max-w-6xl px-4 text-center">
-          <div className="grid grid-cols-4 gap-18 opacity-80">
+          <div className="grid opacity-80 md:grid-cols-2 md:gap-12 lg:grid-cols-4 lg:gap-18">
             {['Netflix', 'HBO Max', 'Prime Video', 'Apple TV'].map((name) => (
               <div
                 key={name}
