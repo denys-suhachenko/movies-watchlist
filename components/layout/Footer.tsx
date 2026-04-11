@@ -1,23 +1,4 @@
-import Link from 'next/link';
 import Container from './Container';
-
-const navigationList = [
-  {
-    id: 1,
-    label: 'Movies',
-    link: '/',
-  },
-  {
-    id: 2,
-    label: 'Watchlist',
-    link: '/',
-  },
-  {
-    id: 3,
-    label: 'About',
-    link: '/',
-  },
-];
 
 export default function Footer() {
   return (
