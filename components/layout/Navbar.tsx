@@ -45,7 +45,7 @@ export default function Navbar() {
           href="/"
           className="flex items-center gap-x-2 text-xl font-semibold tracking-tight"
         >
-          <PopcornIcon /> MovieShelf
+          <PopcornIcon /> Movies Watchlist
         </Link>
 
         <nav className="text-muted-foreground flex items-center gap-6 text-sm font-medium">
@@ -59,7 +59,10 @@ export default function Navbar() {
             </Link>
           ))}
 
-          <Link href="/" className="hover:text-foreground transition-colors">
+          <Link
+            href="/sign-in"
+            className="hover:text-foreground transition-colors"
+          >
             Sign in
           </Link>
         </nav>

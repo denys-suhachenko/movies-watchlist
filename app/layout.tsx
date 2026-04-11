@@ -3,6 +3,7 @@ import { IBM_Plex_Mono, IBM_Plex_Sans, Merriweather } from 'next/font/google';
 
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 import './globals.css';
 
@@ -43,13 +44,13 @@ export default function RootLayout({
       className={`${sans.variable} ${mono.variable} ${serif.variable} h-full antialiased`}
     >
       <body className="bg-background text-foreground antialiased">
-        <div className="flex min-h-screen flex-col">
-          <Navbar />
-
-          <main className="flex-1 pt-16">{children}</main>
-
-          <Footer />
-        </div>
+        <TooltipProvider>
+          <div className="flex min-h-screen flex-col">
+            <Navbar />
+            <main className="flex flex-1 flex-col pt-16">{children}</main>
+            <Footer />
+          </div>
+        </TooltipProvider>
       </body>
     </html>
   );

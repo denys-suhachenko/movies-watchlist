@@ -61,7 +61,7 @@ export default function FeaturedMovies() {
               key={movie.id}
               className="border-border rounded-md bg-white shadow-sm"
             >
-              <CardContent className="px-6">
+              <CardContent className="p-6">
                 <div className="bg-muted aspect-4/5 rounded-md" />
 
                 <div className="mt-5 flex items-start justify-between gap-4">

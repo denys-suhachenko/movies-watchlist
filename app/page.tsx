@@ -30,7 +30,7 @@ export default function HomePage() {
                 asChild
                 className="h-14 rounded-full px-8 text-base shadow-sm hover:opacity-95"
               >
-                <Link href="/">
+                <Link href="/movies">
                   Explore movies
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
@@ -41,7 +41,7 @@ export default function HomePage() {
                 asChild
                 className="border-border text-foreground hover:bg-primary/10 hover:text-primary h-14 rounded-full bg-white px-8 text-base shadow-sm transition"
               >
-                <Link href="/watchlist">Build watchlist</Link>
+                <Link href="/">Build watchlist</Link>
               </Button>
             </div>
           </div>
