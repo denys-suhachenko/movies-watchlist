@@ -1,10 +1,9 @@
 import Link from 'next/link';
-import { ArrowRight, Star } from 'lucide-react';
-
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import FeaturedMovies from '@/components/home/FeaturedMovies';
 import Image from 'next/image';
+import { ArrowRight } from 'lucide-react';
+
+import { Button } from '@/shared/ui/button';
+import { FeaturedMovies } from '@/features/homepage/ui';
 
 export default function HomePage() {
   return (

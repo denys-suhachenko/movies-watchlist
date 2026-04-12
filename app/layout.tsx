@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { IBM_Plex_Mono, IBM_Plex_Sans, Merriweather } from 'next/font/google';
 
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
-import { TooltipProvider } from '@/components/ui/tooltip';
+import Navbar from '@/shared/layout/Navbar';
+import Footer from '@/shared/layout/Footer';
+import { TooltipProvider } from '@/shared/ui/tooltip';
 
 import './globals.css';
 

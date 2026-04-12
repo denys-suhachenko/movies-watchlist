@@ -1,5 +1,5 @@
-import Container from '@/components/layout/Container';
-import { MoviesSkeleton } from '@/components/movies';
+import Container from '@/shared/layout/Container';
+import { MoviesSkeleton } from '@/features/movies/ui';
 
 export default function Loading() {
   return (

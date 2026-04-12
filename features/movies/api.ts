@@ -1,4 +1,4 @@
-import { baseQuery } from '@/lib/tmdb';
+import { baseQuery } from '@/shared/api/tmdb';
 
 import { Genre, Movie, MovieCredits, MovieListItem } from './types';
 

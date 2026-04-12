@@ -1,23 +1,25 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import Container from '@/components/layout/Container';
+import { Badge } from '@/shared/ui/badge';
+import { Button } from '@/shared/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
+import Container from '@/shared/layout/Container';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
-} from '@/components/ui/carousel';
-import { formatRuntime } from '@/lib/utils';
+} from '@/shared/ui/carousel';
+import { formatRuntime } from '@/shared/lib/utils';
 import {
   getMovie,
   getMovieCredits,
   getMovieRecommendations,
 } from '@/features/movies/api';
+import { MovieReviewForm, ReviewsList } from '@/features/movies/ui';
+import { prisma } from '@/lib/prisma';
 
 type MoviePageProps = {
   params: Promise<{ id: string }>;
@@ -34,6 +36,14 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
   const movie = await getMovie(id);
   const { results: recommendations } = await getMovieRecommendations(id);
   const { cast } = await getMovieCredits(id);
+  const reviews = await prisma.review.findMany({
+    where: {
+      movieId: id,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
 
   return (
     <div>
@@ -126,10 +136,14 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
       </section>
 
       <Container className="grid gap-8 px-8 py-10 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <div className="min-w-0 space-y-10">
+        <div className="min-w-0 space-y-8">
           <section>
             <h2 className="mb-3 text-2xl font-semibold">Overview</h2>
             <p className="text-muted-foreground leading-7">{movie.overview}</p>
+          </section>
+
+          <section>
+            <ReviewsList movieId={movie.id} reviews={reviews} />
           </section>
 
           <section>

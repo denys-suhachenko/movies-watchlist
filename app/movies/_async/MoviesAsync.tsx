@@ -1,5 +1,5 @@
-import { MoviesGrid } from '@/components/movies';
-import { Pagination } from '@/components/movies/Pagination';
+import { MoviesGrid } from '@/features/movies/ui';
+import { Pagination } from '@/features/movies/ui';
 import { fetchMovies } from '@/features/movies/api';
 
 type MoviesAsyncProps = {
