@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation';
 
-import { LoginForm } from '@/features/auth/ui/LoginForm';
+import { RegisterForm } from '@/features/auth/ui/RegisterForm';
 import { getOptionalSession } from '@/lib/dal';
 
-export default async function SignInPage() {
+export default async function SignUpPage() {
   const session = await getOptionalSession();
 
   if (session) {
@@ -13,7 +13,7 @@ export default async function SignInPage() {
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-gray-100 p-6 md:p-10">
       <div className="flex w-full max-w-md flex-col gap-6">
-        <LoginForm />
+        <RegisterForm />
       </div>
     </div>
   );

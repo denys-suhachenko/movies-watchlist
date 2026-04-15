@@ -5,8 +5,18 @@ import Link from 'next/link';
 import { PopcornIcon } from 'lucide-react';
 
 import { cn } from '@/shared/lib/utils';
+import { Button } from '@/shared/ui/button';
+import { logoutAction } from '@/features/auth/ui/actions';
 
-import Container from './Container';
+import Container from '../Container';
+
+type NavbarContentProps = {
+  user?: {
+    id: string;
+    name: string | null;
+    email: string;
+  } | null;
+};
 
 const navigationList = [
   {
@@ -14,14 +24,14 @@ const navigationList = [
     label: 'Movies',
     link: '/movies',
   },
-  // {
-  //   id: 2,
-  //   label: 'Watchlist',
-  //   link: '/',
-  // },
+  {
+    id: 2,
+    label: 'Watchlist',
+    link: '/watchlist',
+  },
 ];
 
-export default function Navbar() {
+export default function NavbarContent({ user }: NavbarContentProps) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -40,7 +50,7 @@ export default function Navbar() {
         scrolled ? 'bg-white/80 shadow-lg' : 'bg-white',
       )}
     >
-      <Container className="flex h-16 items-center justify-between px-4">
+      <Container className="flex h-16 items-center justify-between">
         <Link
           href="/"
           className="flex items-center gap-x-2 text-xl font-semibold tracking-tight"
@@ -59,12 +69,22 @@ export default function Navbar() {
             </Link>
           ))}
 
-          <Link
-            href="/sign-in"
-            className="hover:text-foreground transition-colors"
-          >
-            Sign in
-          </Link>
+          {user ? (
+            <Button
+              variant="link"
+              className="hover:text-foreground px-0 transition-colors"
+              onClick={() => logoutAction()}
+            >
+              Logout
+            </Button>
+          ) : (
+            <Link
+              href="/sign-in"
+              className="hover:text-foreground transition-colors"
+            >
+              Sign in
+            </Link>
+          )}
         </nav>
       </Container>
     </header>

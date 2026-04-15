@@ -21,13 +21,11 @@ export async function createReviewAction(
   movieId: string,
   formData: FormData,
 ): Promise<ActionState> {
-  const raw = {
+  const result = reviewSchema.safeParse({
     movieId,
     rating: Number(formData.get('rating')),
     text: formData.get('description'),
-  };
-
-  const result = reviewSchema.safeParse(raw);
+  });
 
   if (!result.success) {
     return {

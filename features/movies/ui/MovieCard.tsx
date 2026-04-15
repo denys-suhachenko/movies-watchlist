@@ -1,9 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Star } from 'lucide-react';
 
-import { Card, CardContent } from '@/shared/ui/card';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/ui/tooltip';
 import { MovieListItem } from '@/features/movies/types';
 
 const POSTER_BLUR_DATA_URL =
@@ -14,50 +11,25 @@ const POSTER_BLUR_DATA_URL =
 
 export function MovieCard({ movie }: { movie: MovieListItem }) {
   return (
-    <Card key={movie.id} className="border-border bg-white shadow-sm">
-      <CardContent>
-        {movie.poster_path ? (
-          <Image
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie.title}
-            loading="eager"
-            width={300}
-            height={450}
-            placeholder="blur"
-            blurDataURL={POSTER_BLUR_DATA_URL}
-            className="w-full"
-          />
-        ) : (
-          <div className="bg-muted aspect-2/3" />
-        )}
-
-        <div className="p-4">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href={`/movies/${movie.id}`}
-                className="hover:text-primary block overflow-hidden text-lg font-semibold tracking-tight text-nowrap text-ellipsis transition"
-              >
-                {movie.title}
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">{movie.title}</TooltipContent>
-          </Tooltip>
-
-          <div className="mt-2 flex items-center justify-between gap-4">
-            <p className="text-muted-foreground mt-1 text-sm">
-              {movie.release_date}
-            </p>
-            <div className="text-muted-foreground inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-medium">
-              <Star
-                className="h-5 w-5 border-0 fill-yellow-300"
-                strokeWidth={0}
-              />
-              {movie.vote_average.toFixed(1)}/10
-            </div>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+    <Link href={`/movies/${movie.id}`} className="group">
+      {movie.poster_path ? (
+        <Image
+          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+          alt={movie.title}
+          loading="eager"
+          width={300}
+          height={450}
+          placeholder="blur"
+          blurDataURL={POSTER_BLUR_DATA_URL}
+          className="w-full rounded-sm shadow-xl/20 duration-200 group-hover:brightness-80"
+        />
+      ) : (
+        <div className="bg-muted aspect-2/3 rounded-sm shadow-xl/25" />
+      )}
+      <h3 className="mt-3 font-medium">{movie.title}</h3>
+      <div className="mt-1 flex items-center justify-between gap-4">
+        <p className="text-sm text-gray-500">{movie.release_date}</p>
+      </div>
+    </Link>
   );
 }

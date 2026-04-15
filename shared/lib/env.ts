@@ -3,6 +3,7 @@ export const env = {
   tmdbImageUrl: process.env.TMDB_IMAGE_BASE_URL,
   tmdbAccessToken: process.env.TMDB_API_READ_TOKEN,
   databaseUrl: process.env.DATABASE_URL,
+  jwtSecret: process.env.JWT_SECRET,
 };
 
 if (!env.databaseUrl) {
@@ -15,4 +16,8 @@ if (!env.tmdbApiUrl) {
 
 if (!env.tmdbAccessToken) {
   throw new Error('Missing TMDB_API_READ_TOKEN');
+}
+
+if (!env.jwtSecret) {
+  throw new Error('Missing JWT_SECRET');
 }

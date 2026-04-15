@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -19,4 +19,28 @@ model Review {
   createdAt DateTime @default(now())
 
   @@unique([movieId, userId])
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id           String      @id @default(cuid())
+  email        String      @unique
+  name         String?
+  passwordHash String
+  createdAt    DateTime    @default(now())
+
+  reviews      Review[]
+  watchlist    Watchlist[]
+}
+
+model Watchlist {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  userId    String
+  movieId   String
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie     Int      @unique
 }

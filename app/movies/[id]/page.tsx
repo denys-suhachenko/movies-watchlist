@@ -135,141 +135,147 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
         </Container>
       </section>
 
-      <Container className="grid gap-8 px-8 py-10 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <div className="min-w-0 space-y-8">
-          <section>
-            <h2 className="mb-3 text-2xl font-semibold">Overview</h2>
-            <p className="text-muted-foreground leading-7">{movie.overview}</p>
-          </section>
+      <Container>
+        <div className="grid gap-8 px-8 py-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+          <div className="min-w-0 space-y-8">
+            <section>
+              <h2 className="mb-3 text-2xl font-semibold">Overview</h2>
+              <p className="text-muted-foreground leading-7">
+                {movie.overview}
+              </p>
+            </section>
 
-          <section>
-            <ReviewsList movieId={movie.id} reviews={reviews} />
-          </section>
+            <section>
+              <ReviewsList movieId={movie.id} reviews={reviews} />
+            </section>
 
-          <section>
-            <h2 className="mb-4 text-2xl font-semibold">Top Cast</h2>
+            <section>
+              <h2 className="mb-4 text-2xl font-semibold">Top Cast</h2>
 
-            <div className="overflow-hidden">
-              <Carousel
-                opts={{
-                  align: 'start',
-                  loop: false,
-                }}
-                className="w-full px-12"
-              >
-                <CarouselContent className="-ml-4 w-full">
-                  {cast.map((person) => (
-                    <CarouselItem
-                      key={person.id}
-                      className="min-w-0 basis-1/2 pl-4 sm:basis-1/3 lg:basis-1/4"
-                    >
-                      <div>
-                        {person.profile_path ? (
-                          <Image
-                            src={`https://image.tmdb.org/t/p/w500${person.profile_path}`}
-                            alt={person.name}
-                            loading="eager"
-                            width={300}
-                            height={450}
-                            placeholder="blur"
-                            blurDataURL={POSTER_BLUR_DATA_URL}
-                            className="w-full"
-                          />
-                        ) : (
-                          <div className="bg-muted aspect-2/3" />
-                        )}
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
+              <div className="overflow-hidden">
+                <Carousel
+                  opts={{
+                    align: 'start',
+                    loop: false,
+                  }}
+                  className="w-full px-12"
+                >
+                  <CarouselContent className="-ml-4 w-full">
+                    {cast.map(
+                      (person) =>
+                        person.profile_path && (
+                          <CarouselItem
+                            key={person.id}
+                            className="min-w-0 basis-1/2 pl-4 sm:basis-1/4 lg:basis-1/5"
+                          >
+                            <div>
+                              <Image
+                                src={`https://image.tmdb.org/t/p/w500${person.profile_path}`}
+                                alt={person.name}
+                                loading="eager"
+                                width={300}
+                                height={450}
+                                placeholder="blur"
+                                blurDataURL={POSTER_BLUR_DATA_URL}
+                                className="w-full select-none"
+                              />
+                              <h3 className="bg-muted mt-2 font-medium">
+                                {person.name}
+                              </h3>
+                            </div>
+                          </CarouselItem>
+                        ),
+                    )}
+                  </CarouselContent>
 
-                <CarouselPrevious className="bg-primary left-0 hidden translate-y-0! text-white md:flex" />
-                <CarouselNext className="bg-primary right-0 hidden translate-y-0! text-white md:flex" />
-              </Carousel>
-            </div>
-          </section>
+                  <CarouselPrevious className="bg-primary left-0 hidden translate-y-0! text-white md:flex" />
+                  <CarouselNext className="bg-primary right-0 hidden translate-y-0! text-white md:flex" />
+                </Carousel>
+              </div>
+            </section>
+          </div>
 
-          <section>
-            <h2 className="mb-4 text-2xl font-semibold">You may also like</h2>
+          <aside>
+            <Card className="sticky top-24 py-6">
+              <CardHeader>
+                <CardTitle>Details</CardTitle>
+              </CardHeader>
 
-            <div className="overflow-hidden">
-              <Carousel
-                opts={{
-                  align: 'start',
-                  loop: false,
-                }}
-                className="w-full px-12"
-              >
-                <CarouselContent className="-ml-4 w-full">
-                  {recommendations.map((movie) => (
-                    <CarouselItem
-                      key={movie.id}
-                      className="min-w-0 basis-1/2 pl-4 sm:basis-1/3 lg:basis-1/4"
-                    >
-                      <Link
-                        href={`/movies/${movie.id}`}
-                        className="block transition hover:scale-95"
-                      >
-                        {movie.poster_path ? (
-                          <Image
-                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                            alt={movie.title}
-                            loading="eager"
-                            width={300}
-                            height={450}
-                            placeholder="blur"
-                            blurDataURL={POSTER_BLUR_DATA_URL}
-                            className="w-full"
-                          />
-                        ) : (
-                          <div className="bg-muted aspect-2/3" />
-                        )}
-                      </Link>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
+              <CardContent className="space-y-4 px-6 text-sm">
+                <div>
+                  <p className="text-muted-foreground">Release date</p>
+                  <p>{movie.release_date}</p>
+                </div>
 
-                <CarouselPrevious className="bg-primary left-0 hidden translate-y-0! text-white md:flex" />
-                <CarouselNext className="bg-primary right-0 hidden translate-y-0! text-white md:flex" />
-              </Carousel>
-            </div>
-          </section>
+                <div>
+                  <p className="text-muted-foreground">Status</p>
+                  <p>{movie.status}</p>
+                </div>
+
+                <div>
+                  <p className="text-muted-foreground">Original language</p>
+                  <p>{movie.original_language}</p>
+                </div>
+
+                <div>
+                  <p className="text-muted-foreground">Budget</p>
+                  <p>{movie.budget}</p>
+                </div>
+
+                <div>
+                  <p className="text-muted-foreground">Revenue</p>
+                  <p>{movie.revenue}</p>
+                </div>
+              </CardContent>
+            </Card>
+          </aside>
         </div>
 
-        <aside>
-          <Card className="sticky top-24 py-6">
-            <CardHeader>
-              <CardTitle>Details</CardTitle>
-            </CardHeader>
+        <section className="px-8 py-10">
+          <h2 className="mb-4 text-2xl font-semibold">You may also like</h2>
 
-            <CardContent className="space-y-4 px-6 text-sm">
-              <div>
-                <p className="text-muted-foreground">Release date</p>
-                <p>{movie.release_date}</p>
-              </div>
+          <div className="overflow-hidden">
+            <Carousel
+              opts={{
+                align: 'start',
+                loop: false,
+              }}
+              className="w-full px-12"
+            >
+              <CarouselContent className="-ml-4 w-full">
+                {recommendations.map((movie) => (
+                  <CarouselItem
+                    key={movie.id}
+                    className="min-w-0 basis-1/2 pl-4 sm:basis-1/4 lg:basis-1/6"
+                  >
+                    <Link
+                      href={`/movies/${movie.id}`}
+                      className="block transition duration-300 hover:scale-95"
+                    >
+                      {movie.poster_path ? (
+                        <Image
+                          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                          alt={movie.title}
+                          loading="eager"
+                          width={300}
+                          height={450}
+                          placeholder="blur"
+                          blurDataURL={POSTER_BLUR_DATA_URL}
+                          className="w-full select-none"
+                        />
+                      ) : (
+                        <div className="bg-muted aspect-2/3" />
+                      )}
+                    </Link>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
 
-              <div>
-                <p className="text-muted-foreground">Status</p>
-                <p>{movie.status}</p>
-              </div>
-
-              <div>
-                <p className="text-muted-foreground">Original language</p>
-                <p>{movie.original_language}</p>
-              </div>
-
-              <div>
-                <p className="text-muted-foreground">Budget</p>
-                <p>{movie.budget}</p>
-              </div>
-
-              <div>
-                <p className="text-muted-foreground">Revenue</p>
-                <p>{movie.revenue}</p>
-              </div>
-            </CardContent>
-          </Card>
-        </aside>
+              <CarouselPrevious className="bg-primary left-0 hidden translate-y-0! text-white md:flex" />
+              <CarouselNext className="bg-primary right-0 hidden translate-y-0! text-white md:flex" />
+            </Carousel>
+          </div>
+        </section>
       </Container>
     </div>
   );
