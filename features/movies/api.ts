@@ -76,3 +76,7 @@ export async function getMovieCredits(movieId: string) {
 export async function getMovieRecommendations(movieId: string) {
   return baseQuery<MoviesListResponse>(`/movie/${movieId}/recommendations`);
 }
+
+export async function fetchUpcomingMovies() {
+  return baseQuery<MoviesListResponse>(`/movie/upcoming`);
+}

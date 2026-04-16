@@ -6,3 +6,4 @@ export { MoviesFiltersSkeleton } from './MoviesFiltersSkeleton';
 export { Pagination } from './Pagination';
 export { MovieReviewForm } from './ReviewForm';
 export { ReviewsList } from './ReviewsList';
+export { MoviesCarousel } from './MoviesCarousel';

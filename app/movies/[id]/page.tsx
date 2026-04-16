@@ -18,7 +18,7 @@ import {
   getMovieCredits,
   getMovieRecommendations,
 } from '@/features/movies/api';
-import { MovieReviewForm, ReviewsList } from '@/features/movies/ui';
+import { ReviewsList } from '@/features/movies/ui';
 import { prisma } from '@/lib/prisma';
 
 type MoviePageProps = {
@@ -74,12 +74,12 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                   alt={movie.title}
                   width={300}
                   height={450}
-                  className="h-auto w-full object-cover shadow-2xl"
+                  className="h-auto w-full rounded-sm object-cover shadow-2xl"
                   sizes="(max-width: 768px) 60vw, 300px"
                   priority
                 />
               ) : (
-                <div className="bg-muted text-muted-foreground flex aspect-2/3 w-full items-center justify-center rounded-2xl text-sm">
+                <div className="bg-muted text-muted-foreground flex aspect-2/3 w-full items-center justify-center rounded-sm text-sm">
                   No poster
                 </div>
               )}
@@ -168,7 +168,7 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                             key={person.id}
                             className="min-w-0 basis-1/2 pl-4 sm:basis-1/4 lg:basis-1/5"
                           >
-                            <div>
+                            <Link href={`/actors/${person.id}`} target="_blank">
                               <Image
                                 src={`https://image.tmdb.org/t/p/w500${person.profile_path}`}
                                 alt={person.name}
@@ -177,12 +177,12 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                                 height={450}
                                 placeholder="blur"
                                 blurDataURL={POSTER_BLUR_DATA_URL}
-                                className="w-full select-none"
+                                className="w-full rounded-sm select-none"
                               />
                               <h3 className="bg-muted mt-2 font-medium">
                                 {person.name}
                               </h3>
-                            </div>
+                            </Link>
                           </CarouselItem>
                         ),
                     )}
@@ -261,10 +261,10 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                           height={450}
                           placeholder="blur"
                           blurDataURL={POSTER_BLUR_DATA_URL}
-                          className="w-full select-none"
+                          className="w-full rounded-sm select-none"
                         />
                       ) : (
-                        <div className="bg-muted aspect-2/3" />
+                        <div className="bg-muted aspect-2/3 rounded-sm" />
                       )}
                     </Link>
                   </CarouselItem>

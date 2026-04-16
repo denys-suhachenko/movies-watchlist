@@ -26,6 +26,11 @@ const navigationList = [
   },
   {
     id: 2,
+    label: 'Actors',
+    link: '/actors',
+  },
+  {
+    id: 3,
     label: 'Watchlist',
     link: '/watchlist',
   },

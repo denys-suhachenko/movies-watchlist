@@ -1,4 +1,5 @@
 import { Hero } from '@/features/homepage/Hero';
+import { FeaturedMovies } from './_async/FeaturedMovies';
 
 export default function HomePage() {
   return (
@@ -19,6 +20,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <FeaturedMovies />
     </>
   );
 }
