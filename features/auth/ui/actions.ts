@@ -83,6 +83,8 @@ export async function loginAction(
     password: formData.get('password'),
   });
 
+  const callbackUrl = formData.get('callbackUrl')?.toString() ?? '/';
+
   if (!parsed.success) {
     return {
       error: 'Invalid form data!',
@@ -114,7 +116,7 @@ export async function loginAction(
     email: user.email,
   });
 
-  redirect('/');
+  redirect(callbackUrl);
 }
 
 export async function logoutAction() {

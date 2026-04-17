@@ -2,6 +2,7 @@
 
 import { useActionState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
@@ -20,6 +21,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
+  const params = useSearchParams();
   const [formState, handleAction] = useActionState(loginAction, {});
 
   return (
@@ -31,6 +33,12 @@ export function LoginForm({
 
         <CardContent>
           <form action={handleAction}>
+            <input
+              type="hidden"
+              name="callbackUrl"
+              value={params.get('from') || '/'}
+            />
+
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>

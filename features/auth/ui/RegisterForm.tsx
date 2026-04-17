@@ -13,6 +13,7 @@ import {
   FieldLabel,
 } from '@/shared/ui/field';
 import { Input } from '@/shared/ui/input';
+
 import { registerAction } from './actions';
 
 export function RegisterForm({
