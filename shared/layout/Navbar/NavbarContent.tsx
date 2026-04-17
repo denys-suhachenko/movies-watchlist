@@ -2,13 +2,27 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { PopcornIcon } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { Menu, PopcornIcon } from 'lucide-react';
 
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
-import { logoutAction } from '@/features/auth/ui/actions';
+
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/shared/ui/sheet';
 
 import Container from '../Container';
+
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/movies', label: 'Movies' },
+  { href: '/actors', label: 'Actors' },
+];
 
 type NavbarContentProps = {
   user?: {
@@ -18,26 +32,10 @@ type NavbarContentProps = {
   } | null;
 };
 
-const navigationList = [
-  {
-    id: 1,
-    label: 'Movies',
-    link: '/movies',
-  },
-  {
-    id: 2,
-    label: 'Actors',
-    link: '/actors',
-  },
-  {
-    id: 3,
-    label: 'Watchlist',
-    link: '/watchlist',
-  },
-];
-
-export default function NavbarContent({ user }: NavbarContentProps) {
+export function NavbarContent({ user }: NavbarContentProps) {
   const [scrolled, setScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,46 +49,125 @@ export default function NavbarContent({ user }: NavbarContentProps) {
   return (
     <header
       className={cn(
-        'fixed top-0 right-0 left-0 z-50 border-b border-gray-200 backdrop-blur-md transition-all duration-300',
+        'sticky top-0 z-50 w-full border-b backdrop-blur-md transition-all duration-300',
         scrolled ? 'bg-white/80 shadow-lg' : 'bg-white',
       )}
     >
       <Container className="flex h-16 items-center justify-between">
         <Link
           href="/"
-          className="flex items-center gap-x-2 text-xl font-semibold tracking-tight"
+          className="flex items-center gap-x-2 font-semibold tracking-tight text-nowrap md:text-xl"
         >
           <PopcornIcon /> Movies Watchlist
         </Link>
 
-        <nav className="text-muted-foreground flex items-center gap-6 text-sm font-medium">
-          {navigationList.map((item) => (
-            <Link
-              key={item.id}
-              href={item.link}
-              className="hover:text-foreground transition-colors"
-            >
-              {item.label}
-            </Link>
-          ))}
+        <nav className="hidden items-center gap-6 md:flex">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
 
-          {user ? (
-            <Button
-              variant="link"
-              className="hover:text-foreground px-0 transition-colors"
-              onClick={() => logoutAction()}
-            >
-              Logout
-            </Button>
-          ) : (
-            <Link
-              href="/sign-in"
-              className="hover:text-foreground transition-colors"
-            >
-              Sign in
-            </Link>
-          )}
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  'text-sm font-medium transition-colors',
+                  isActive
+                    ? 'text-foreground'
+                    : 'text-muted-foreground hover:text-foreground',
+                )}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
+
+        {user ? (
+          <div className="hidden items-center gap-2 md:flex">
+            <Button variant="ghost" asChild className="rounded-sm">
+              <Link href="/profile">Profile</Link>
+            </Button>
+            <Button asChild className="rounded-sm">
+              <Link href="/watchlist">My list</Link>
+            </Button>
+          </div>
+        ) : (
+          <div className="hidden items-center gap-2 md:flex">
+            <Button variant="ghost" asChild className="rounded-sm">
+              <Link href="/sign-in">Sign in</Link>
+            </Button>
+            <Button asChild className="rounded-sm">
+              <Link href="/sign-up">Sign up</Link>
+            </Button>
+          </div>
+        )}
+
+        <div className="md:hidden">
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" aria-label="Open menu">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+
+            <SheetContent
+              side="right"
+              className="w-[300px] sm:w-[350px]"
+              aria-describedby={undefined}
+            >
+              <SheetHeader className="hidden">
+                <SheetTitle>Navigation menu</SheetTitle>
+              </SheetHeader>
+
+              <div className="flex flex-col gap-6 p-4">
+                <Link href="/" className="text-lg font-semibold tracking-tight">
+                  Movies Watchlist
+                </Link>
+
+                <nav className="flex flex-col gap-4">
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={cn(
+                        'text-sm font-medium transition-colors',
+                        pathname === item.href
+                          ? 'text-foreground'
+                          : 'text-muted-foreground hover:text-foreground',
+                      )}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </nav>
+
+                {user ? (
+                  <Button
+                    className="rounded-sm"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Logout
+                  </Button>
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    <Button variant="outline" asChild className="rounded-sm">
+                      <Link href="/sign-in" onClick={() => setIsOpen(false)}>
+                        Sign in
+                      </Link>
+                    </Button>
+
+                    <Button asChild className="rounded-sm">
+                      <Link href="/sign-up" onClick={() => setIsOpen(false)}>
+                        Sign up
+                      </Link>
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
       </Container>
     </header>
   );

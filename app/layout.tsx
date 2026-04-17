@@ -47,7 +47,7 @@ export default function RootLayout({
         <TooltipProvider>
           <div className="flex min-h-screen flex-col">
             <Navbar />
-            <main className="flex flex-1 flex-col pt-16">{children}</main>
+            <main className="flex flex-1 flex-col">{children}</main>
             <Footer />
           </div>
         </TooltipProvider>

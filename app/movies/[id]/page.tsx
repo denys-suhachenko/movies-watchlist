@@ -136,7 +136,7 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
       </section>
 
       <Container>
-        <div className="grid gap-8 px-8 py-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="grid gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_320px]">
           <div className="min-w-0 space-y-8">
             <section>
               <h2 className="mb-3 text-2xl font-semibold">Overview</h2>
@@ -179,7 +179,7 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                                 blurDataURL={POSTER_BLUR_DATA_URL}
                                 className="w-full rounded-sm select-none"
                               />
-                              <h3 className="bg-muted mt-2 font-medium">
+                              <h3 className="bg-muted mt-2 text-sm font-medium md:text-base">
                                 {person.name}
                               </h3>
                             </Link>
@@ -188,8 +188,8 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                     )}
                   </CarouselContent>
 
-                  <CarouselPrevious className="bg-primary left-0 hidden translate-y-0! text-white md:flex" />
-                  <CarouselNext className="bg-primary right-0 hidden translate-y-0! text-white md:flex" />
+                  <CarouselPrevious className="bg-primary left-0 flex -translate-y-10! text-white md:-translate-y-8!" />
+                  <CarouselNext className="bg-primary right-0 flex -translate-y-10! text-white md:-translate-y-8!" />
                 </Carousel>
               </div>
             </section>
@@ -231,7 +231,7 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
           </aside>
         </div>
 
-        <section className="px-8 py-10">
+        <section className="py-10">
           <h2 className="mb-4 text-2xl font-semibold">You may also like</h2>
 
           <div className="overflow-hidden">
@@ -246,7 +246,7 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                 {recommendations.map((movie) => (
                   <CarouselItem
                     key={movie.id}
-                    className="min-w-0 basis-1/2 pl-4 sm:basis-1/4 lg:basis-1/6"
+                    className="min-w-0 basis-1/2 pl-4 sm:basis-1/4 md:basis-1/6"
                   >
                     <Link
                       href={`/movies/${movie.id}`}
@@ -266,13 +266,16 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                       ) : (
                         <div className="bg-muted aspect-2/3 rounded-sm" />
                       )}
+                      <h3 className="bg-muted mt-2 text-sm font-medium md:text-base">
+                        {movie.title}
+                      </h3>
                     </Link>
                   </CarouselItem>
                 ))}
               </CarouselContent>
 
-              <CarouselPrevious className="bg-primary left-0 hidden translate-y-0! text-white md:flex" />
-              <CarouselNext className="bg-primary right-0 hidden translate-y-0! text-white md:flex" />
+              <CarouselPrevious className="bg-primary left-0 flex -translate-y-10! text-white md:-translate-y-8!" />
+              <CarouselNext className="bg-primary right-0 flex -translate-y-10! text-white md:-translate-y-8!" />
             </Carousel>
           </div>
         </section>

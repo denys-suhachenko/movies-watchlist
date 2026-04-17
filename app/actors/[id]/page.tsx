@@ -137,7 +137,7 @@ export default async function ActorPage({ params }: ActorPageProps) {
           </div>
           <div>
             <h2 className="mb-3 text-lg font-semibold md:text-xl">Known for</h2>
-            <div className="grid grid-cols-6 gap-5">
+            <div className="md: grid grid-cols-2 gap-5 md:grid-cols-6">
               {credits.cast.map((movie) => (
                 <Link
                   key={movie.id}

@@ -93,19 +93,21 @@ export function MoviesFilters({
         onChange={(e) => setSelectedQuery(e.target.value)}
       />
 
-      <Input
-        value={selectedYear}
-        placeholder="Year"
-        className="w-full rounded-sm border bg-white px-3 md:w-40"
-        onChange={(e) => setSelectedYear(e.target.value)}
-      />
+      <div className="flex gap-3">
+        <Input
+          value={selectedYear}
+          placeholder="Year"
+          className="w-full rounded-sm border bg-white px-3 md:w-40"
+          onChange={(e) => setSelectedYear(e.target.value)}
+        />
 
-      <GenresSelect
-        genres={normalizedGenres}
-        value={selectedGenre}
-        className="w-full rounded-sm bg-white md:w-48"
-        onChange={setSelectetGenre}
-      />
+        <GenresSelect
+          genres={normalizedGenres}
+          value={selectedGenre}
+          className="w-full rounded-sm bg-white md:w-48"
+          onChange={setSelectetGenre}
+        />
+      </div>
 
       <Button disabled={!isDirty} className="rounded-sm" onClick={apply}>
         Apply
