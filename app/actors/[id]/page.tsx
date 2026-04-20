@@ -25,7 +25,7 @@ export default async function ActorPage({ params }: ActorPageProps) {
   const externalLinks = await getActorExternalIds(id);
 
   return (
-    <Container className="px-8 py-8 md:py-16 xl:px-4">
+    <Container className="py-8 md:py-16">
       <div className="grid gap-8 md:grid-cols-[260px_1fr]">
         <aside className="mx-auto w-full md:max-w-[260px]">
           <div className="mb-8">
@@ -35,12 +35,12 @@ export default async function ActorPage({ params }: ActorPageProps) {
                 alt={actor.name}
                 width={300}
                 height={450}
-                className="h-auto w-full rounded-sm object-cover shadow-md"
+                className="h-auto w-full rounded-md object-cover shadow-md"
                 sizes="(max-width: 768px) 60vw, 300px"
                 priority
               />
             ) : (
-              <div className="text-muted-foreground flex aspect-2/3 w-full items-center justify-center rounded-sm bg-gray-200 text-sm shadow-md">
+              <div className="text-muted-foreground flex aspect-2/3 w-full items-center justify-center rounded-md bg-gray-200 text-sm shadow-md">
                 No poster
               </div>
             )}
@@ -116,7 +116,7 @@ export default async function ActorPage({ params }: ActorPageProps) {
 
               <Button
                 asChild
-                className="w-full rounded-sm bg-yellow-400 text-xs text-black hover:bg-amber-300"
+                className="w-full bg-yellow-400 text-xs text-black hover:bg-amber-300"
               >
                 <Link
                   href={`https://www.imdb.com/name/${actor.imdb_id}`}
@@ -138,11 +138,10 @@ export default async function ActorPage({ params }: ActorPageProps) {
           <div>
             <h2 className="mb-3 text-lg font-semibold md:text-xl">Known for</h2>
             <div className="md: grid grid-cols-2 gap-5 md:grid-cols-6">
-              {credits.cast.map((movie) => (
+              {credits.cast.map((movie, index) => (
                 <Link
-                  key={movie.id}
+                  key={`${movie.id}-${index}`}
                   href={`/movies/${movie.id}`}
-                  target="_blank"
                   className="group"
                 >
                   {movie.poster_path ? (
@@ -152,10 +151,10 @@ export default async function ActorPage({ params }: ActorPageProps) {
                       loading="eager"
                       width={300}
                       height={450}
-                      className="w-full rounded-sm shadow-md/20 duration-200 select-none group-hover:brightness-80"
+                      className="w-full rounded-md shadow-md/20 duration-200 select-none group-hover:brightness-80"
                     />
                   ) : (
-                    <div className="text-muted-foreground flex aspect-2/3 w-full items-center justify-center rounded-sm bg-gray-200 text-sm shadow-md/10 select-none">
+                    <div className="text-muted-foreground flex aspect-2/3 w-full items-center justify-center rounded-md bg-gray-200 text-sm shadow-md/10 select-none">
                       No image
                     </div>
                   )}

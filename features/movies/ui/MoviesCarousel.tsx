@@ -50,18 +50,18 @@ export function MoviesCarousel({ movies }: MoviesCarouselProps) {
                     height={450}
                     placeholder="blur"
                     blurDataURL={POSTER_BLUR_DATA_URL}
-                    className="w-full select-none"
+                    className="w-full rounded-md select-none"
                   />
                 ) : (
-                  <div className="bg-muted aspect-2/3" />
+                  <div className="bg-muted aspect-2/3 rounded-md" />
                 )}
               </Link>
             </CarouselItem>
           ))}
         </CarouselContent>
 
-        <CarouselPrevious className="bg-primary left-0 hidden translate-y-0! text-white md:flex" />
-        <CarouselNext className="bg-primary right-0 hidden translate-y-0! text-white md:flex" />
+        <CarouselPrevious className="bg-primary left-0 translate-y-0! text-white md:flex" />
+        <CarouselNext className="bg-primary right-0 translate-y-0! text-white md:flex" />
       </Carousel>
     </div>
   );

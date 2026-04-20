@@ -29,7 +29,7 @@ const serif = Merriweather({
 });
 
 export const metadata: Metadata = {
-  title: 'MovieShelf',
+  title: 'Movies Watchlist',
   description: 'Movie discovery and watchlist app',
 };
 
@@ -43,7 +43,7 @@ export default function RootLayout({
       lang="en"
       className={`${sans.variable} ${mono.variable} ${serif.variable} h-full antialiased`}
     >
-      <body className="bg-background text-foreground antialiased">
+      <body className="antialiased">
         <TooltipProvider>
           <div className="flex min-h-screen flex-col">
             <Navbar />

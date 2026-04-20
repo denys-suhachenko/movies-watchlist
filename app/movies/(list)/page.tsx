@@ -21,7 +21,7 @@ export default async function MoviesPage({ searchParams }: MoviesPageProps) {
   const currentPage = Math.max(1, Number(page || 1));
 
   return (
-    <Container className="px-6 py-6 xl:px-0">
+    <Container className="py-6">
       <section className="space-y-8">
         <div className="space-y-1">
           <h1 className="text-3xl font-bold">Movies</h1>

@@ -54,7 +54,7 @@ const heroImages = [
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden border-b">
+    <section className="relative overflow-hidden border-b bg-white">
       <Container className="py-8 lg:py-0">
         <div className="grid min-h-[60vh] items-center gap-12 lg:grid-cols-2">
           <div className="md:py-8">
@@ -67,14 +67,15 @@ export function Hero() {
             </h1>
 
             <p className="text-muted-foreground mt-6 max-w-xl text-base leading-7 sm:text-lg">
-              MovieShelf helps you explore films, build your watchlist and keep
-              track of what you want to watch next.
+              Movies Watchlist helps you explore films, build your watchlist and
+              keep track of what you want to watch next.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
               <Button
                 asChild
-                className="border-primary h-14 rounded-full px-8 text-base shadow-sm hover:opacity-95"
+                size="lg"
+                className="shadow-primary/20 border-ring h-12 min-w-[200px] rounded-full px-8 shadow-md"
               >
                 <Link href="/movies">
                   Explore movies
@@ -83,9 +84,10 @@ export function Hero() {
               </Button>
 
               <Button
-                variant="outline"
                 asChild
-                className="border-border text-foreground hover:bg-primary/10 hover:text-primary h-14 rounded-full bg-white px-8 text-base shadow-sm transition"
+                variant="outline"
+                size="lg"
+                className="border-primary/20 bg-background/50 h-12 min-w-[200px] rounded-full px-8"
               >
                 <Link href="/watchlist">Build watchlist</Link>
               </Button>
@@ -99,7 +101,7 @@ export function Hero() {
                   <div
                     key={image.key}
                     className={cn(
-                      'relative overflow-hidden rounded-[28px]',
+                      'relative overflow-hidden rounded-3xl',
                       image.position,
                     )}
                   >

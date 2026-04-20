@@ -39,7 +39,6 @@ export function RegisterForm({
                   name="name"
                   type="text"
                   placeholder="Please enter"
-                  className="rounded-sm"
                 />
                 {formState.fieldErrors?.name && (
                   <p className="text-sm text-red-700">
@@ -50,12 +49,7 @@ export function RegisterForm({
 
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  id="email"
-                  name="email"
-                  placeholder="Please enter"
-                  className="rounded-sm"
-                />
+                <Input id="email" name="email" placeholder="Please enter" />
                 {formState.fieldErrors?.email && (
                   <p className="text-sm text-red-700">
                     {formState.fieldErrors?.email}
@@ -69,7 +63,6 @@ export function RegisterForm({
                   id="password"
                   name="password"
                   placeholder="Please enter"
-                  className="rounded-sm"
                 />
                 {formState.fieldErrors?.password && (
                   <p className="text-sm text-red-500">
@@ -78,18 +71,16 @@ export function RegisterForm({
                 )}
               </Field>
 
-              <Field>
-                {formState.error && (
+              {formState.error && (
+                <Field>
                   <p className="text-center text-sm text-red-600">
                     {formState.error}
                   </p>
-                )}
-              </Field>
+                </Field>
+              )}
 
-              <Field>
-                <Button type="submit" className="rounded-sm">
-                  Register
-                </Button>
+              <Field className="gap-6">
+                <Button type="submit">Register</Button>
 
                 <FieldDescription className="text-center">
                   Already have an account? <Link href="/sign-in">Sign in</Link>

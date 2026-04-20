@@ -4,7 +4,7 @@ export function middleware(req: NextRequest) {
   const session = req.cookies.get('session')?.value;
   const pathname = req.nextUrl.pathname;
 
-  const isProtected = ['/watchlist'].some((route) =>
+  const isProtected = ['/watchlist', '/profile'].some((route) =>
     pathname.startsWith(route),
   );
 
@@ -18,5 +18,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/watchlist/:path*'],
+  matcher: ['/watchlist/:path*', '/profile/:path*'],
 };

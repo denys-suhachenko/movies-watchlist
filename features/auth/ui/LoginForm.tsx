@@ -47,7 +47,6 @@ export function LoginForm({
                   name="email"
                   type="email"
                   placeholder="Please enter"
-                  className="rounded-sm"
                 />
                 {formState.fieldErrors?.email && (
                   <p className="text-sm text-red-700">
@@ -63,7 +62,6 @@ export function LoginForm({
                   name="password"
                   type="password"
                   placeholder="Please enter"
-                  className="rounded-sm"
                 />
                 {formState.fieldErrors?.password && (
                   <p className="text-sm text-red-700">
@@ -72,18 +70,16 @@ export function LoginForm({
                 )}
               </Field>
 
-              <Field>
-                {formState.error && (
+              {formState.error && (
+                <Field>
                   <p className="text-center text-sm text-red-600">
                     {formState.error}
                   </p>
-                )}
-              </Field>
+                </Field>
+              )}
 
-              <Field>
-                <Button type="submit" className="rounded-sm">
-                  Login
-                </Button>
+              <Field className="gap-6">
+                <Button type="submit">Login</Button>
 
                 <FieldDescription className="text-center">
                   Don&apos;t have an account?{' '}

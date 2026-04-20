@@ -30,9 +30,10 @@ type NavbarContentProps = {
     name: string | null;
     email: string;
   } | null;
+  handleLogout?: () => void;
 };
 
-export function NavbarContent({ user }: NavbarContentProps) {
+export function NavbarContent({ user, handleLogout }: NavbarContentProps) {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
@@ -84,19 +85,24 @@ export function NavbarContent({ user }: NavbarContentProps) {
 
         {user ? (
           <div className="hidden items-center gap-2 md:flex">
-            <Button variant="ghost" asChild className="rounded-sm">
+            <Button variant="ghost" asChild>
               <Link href="/profile">Profile</Link>
             </Button>
-            <Button asChild className="rounded-sm">
-              <Link href="/watchlist">My list</Link>
+            <Button
+              onClick={() => {
+                handleLogout?.();
+                setIsOpen(false);
+              }}
+            >
+              Logout
             </Button>
           </div>
         ) : (
           <div className="hidden items-center gap-2 md:flex">
-            <Button variant="ghost" asChild className="rounded-sm">
+            <Button variant="ghost" asChild>
               <Link href="/sign-in">Sign in</Link>
             </Button>
-            <Button asChild className="rounded-sm">
+            <Button asChild>
               <Link href="/sign-up">Sign up</Link>
             </Button>
           </div>
@@ -143,21 +149,31 @@ export function NavbarContent({ user }: NavbarContentProps) {
                 </nav>
 
                 {user ? (
-                  <Button
-                    className="rounded-sm"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Logout
-                  </Button>
+                  <div className="flex flex-col gap-2">
+                    <Button variant="outline" asChild>
+                      <Link href="/profile" onClick={() => setIsOpen(false)}>
+                        Profile
+                      </Link>
+                    </Button>
+
+                    <Button
+                      onClick={() => {
+                        handleLogout?.();
+                        setIsOpen(false);
+                      }}
+                    >
+                      Logout
+                    </Button>
+                  </div>
                 ) : (
                   <div className="flex flex-col gap-2">
-                    <Button variant="outline" asChild className="rounded-sm">
+                    <Button variant="outline" asChild>
                       <Link href="/sign-in" onClick={() => setIsOpen(false)}>
                         Sign in
                       </Link>
                     </Button>
 
-                    <Button asChild className="rounded-sm">
+                    <Button asChild>
                       <Link href="/sign-up" onClick={() => setIsOpen(false)}>
                         Sign up
                       </Link>

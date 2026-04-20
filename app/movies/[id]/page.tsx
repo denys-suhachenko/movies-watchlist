@@ -64,7 +64,7 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
           <div className="absolute inset-0 bg-black/80" />
         </div>
 
-        <Container className="px-8 py-8 md:py-16 xl:px-4">
+        <Container className="py-8 md:py-16">
           <div className="grid gap-8 md:grid-cols-[320px_1fr]">
             {/* Poster */}
             <div className="mx-auto w-full md:max-w-[320px]">
@@ -74,12 +74,12 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                   alt={movie.title}
                   width={300}
                   height={450}
-                  className="h-auto w-full rounded-sm object-cover shadow-2xl"
+                  className="h-auto w-full rounded-md object-cover shadow-2xl"
                   sizes="(max-width: 768px) 60vw, 300px"
                   priority
                 />
               ) : (
-                <div className="bg-muted text-muted-foreground flex aspect-2/3 w-full items-center justify-center rounded-sm text-sm">
+                <div className="bg-muted text-muted-foreground flex aspect-2/3 w-full items-center justify-center rounded-md text-sm">
                   No poster
                 </div>
               )}
@@ -120,7 +120,7 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
               <div className="flex gap-3 pt-2">
                 <Button
                   asChild
-                  className="rounded-sm bg-yellow-300 text-black hover:bg-amber-200"
+                  className="bg-yellow-300 text-black hover:bg-amber-200"
                 >
                   <Link
                     href={`https://www.imdb.com/title/${movie.imdb_id}`}
@@ -168,7 +168,7 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                             key={person.id}
                             className="min-w-0 basis-1/2 pl-4 sm:basis-1/4 lg:basis-1/5"
                           >
-                            <Link href={`/actors/${person.id}`} target="_blank">
+                            <Link href={`/actors/${person.id}`}>
                               <Image
                                 src={`https://image.tmdb.org/t/p/w500${person.profile_path}`}
                                 alt={person.name}
@@ -177,7 +177,7 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                                 height={450}
                                 placeholder="blur"
                                 blurDataURL={POSTER_BLUR_DATA_URL}
-                                className="w-full rounded-sm select-none"
+                                className="w-full rounded-md select-none"
                               />
                               <h3 className="bg-muted mt-2 text-sm font-medium md:text-base">
                                 {person.name}
@@ -261,10 +261,10 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                           height={450}
                           placeholder="blur"
                           blurDataURL={POSTER_BLUR_DATA_URL}
-                          className="w-full rounded-sm select-none"
+                          className="w-full rounded-md select-none"
                         />
                       ) : (
-                        <div className="bg-muted aspect-2/3 rounded-sm" />
+                        <div className="bg-muted aspect-2/3 rounded-md" />
                       )}
                       <h3 className="bg-muted mt-2 text-sm font-medium md:text-base">
                         {movie.title}

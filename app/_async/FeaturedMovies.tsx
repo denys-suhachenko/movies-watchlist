@@ -7,7 +7,7 @@ export async function FeaturedMovies() {
   const { results } = await fetchUpcomingMovies();
 
   return (
-    <section className="py-12">
+    <section className="bg-white py-12">
       <Container>
         <h2 className="mb-8 text-2xl font-semibold">Upcoming</h2>
         <MoviesCarousel movies={results} />

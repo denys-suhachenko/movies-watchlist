@@ -6,7 +6,7 @@ export default async function ActorsListPage() {
   const { results } = await getActors();
 
   return (
-    <Container className="h-full px-6 py-6 xl:px-0">
+    <Container className="h-full py-6">
       <section className="space-y-8">
         <div className="space-y-1">
           <h1 className="text-3xl font-bold">Actors</h1>

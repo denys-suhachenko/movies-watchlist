@@ -59,7 +59,7 @@ export default function WatchlistPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen">
       <section className="relative overflow-hidden border-b border-slate-200">
         <Container className="relative flex flex-col justify-end py-10">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
@@ -139,7 +139,7 @@ export default function WatchlistPage() {
                     </div>
 
                     <div className="flex items-center gap-3 pt-2">
-                      <Button variant="outline" className="flex-1 rounded-sm">
+                      <Button variant="outline" className="flex-1">
                         <Play className="mr-2 h-4 w-4 fill-current" />
                         Details
                       </Button>
@@ -147,7 +147,7 @@ export default function WatchlistPage() {
                       <Button
                         variant="destructive"
                         size="icon"
-                        className="shrink-0 rounded-sm"
+                        className="shrink-0"
                         onClick={() => removeFromWatchlist(movie.id)}
                       >
                         <Trash2 className="h-4 w-4" />

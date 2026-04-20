@@ -21,10 +21,10 @@ export function MovieCard({ movie }: { movie: MovieListItem }) {
           height={450}
           placeholder="blur"
           blurDataURL={POSTER_BLUR_DATA_URL}
-          className="w-full rounded-sm shadow-xl/20 duration-200 group-hover:brightness-80"
+          className="w-full rounded-md shadow-xl/20 duration-200 group-hover:brightness-80"
         />
       ) : (
-        <div className="bg-muted aspect-2/3 rounded-sm shadow-xl/25" />
+        <div className="bg-muted aspect-2/3 rounded-md shadow-xl/25" />
       )}
       <h3 className="mt-3 font-medium">{movie.title}</h3>
       <div className="mt-1 flex items-center justify-between gap-4">
