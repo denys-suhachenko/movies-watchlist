@@ -3,8 +3,8 @@ import { Suspense } from 'react';
 import { MoviesFiltersSkeleton, MoviesSkeleton } from '@/features/movies/ui';
 import Container from '@/shared/layout/Container';
 
-import { FiltersAsync } from '../_async/FiltersAsync';
-import { MoviesAsync } from '../_async/MoviesAsync';
+import { FiltersAsync } from './_async/FiltersAsync';
+import { MoviesAsync } from './_async/MoviesAsync';
 
 type MoviesPageProps = {
   searchParams: Promise<{
