@@ -44,6 +44,8 @@ export async function createReviewAction(
     };
   }
 
+  const userId = 'mock-user';
+
   try {
     await prisma.review.create({
       data: {
