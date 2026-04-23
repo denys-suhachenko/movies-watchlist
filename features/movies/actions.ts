@@ -5,6 +5,7 @@ import { z } from 'zod';
 
 import { prisma } from '@/lib/prisma';
 import { Prisma } from '@/generated/prisma/client';
+import { getOptionalSession } from '@/lib/dal';
 
 export type ActionState = {
   error: string;
@@ -21,6 +22,15 @@ export async function createReviewAction(
   movieId: string,
   formData: FormData,
 ): Promise<ActionState> {
+  const session = await getOptionalSession();
+
+  if (!session?.userId) {
+    return {
+      error: 'User must be signed in!',
+      success: false,
+    };
+  }
+
   const result = reviewSchema.safeParse({
     movieId,
     rating: Number(formData.get('rating')),
@@ -34,13 +44,11 @@ export async function createReviewAction(
     };
   }
 
-  const userId = 'mock-user';
-
   try {
     await prisma.review.create({
       data: {
         ...result.data,
-        userId,
+        userId: session.userId,
       },
     });
   } catch (e) {
