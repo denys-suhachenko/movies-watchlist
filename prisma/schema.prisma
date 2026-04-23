@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  movieId   String
+  userId    String
+  rating    Int
+  text      String
+  createdAt DateTime @default(now())
+
+  @@unique([movieId, userId])
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id           String      @id @default(cuid())
+  email        String      @unique
+  name         String?
+  passwordHash String
+  createdAt    DateTime    @default(now())
+
+  reviews      Review[]
+  watchlist    Watchlist[]
+}
+
+model Watchlist {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  userId    String
+  movieId   String
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie     Int      @unique
+}

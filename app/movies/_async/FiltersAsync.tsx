@@ -1,4 +1,4 @@
-import { MoviesFilters } from '@/components/movies/MoviesFilters';
+import { MoviesFilters } from '@/features/movies/ui/MoviesFilters';
 import { getGenres } from '@/features/movies/api';
 
 type FiltersAsyncProps = {

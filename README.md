@@ -1,4 +1,4 @@
-# MovieShelf — Movie Discovery & Watchlist App
+# Movies Watchlist — Movie Discovery & Watchlist App
 
 ## Stack
 

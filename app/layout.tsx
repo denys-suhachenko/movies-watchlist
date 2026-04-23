@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { IBM_Plex_Mono, IBM_Plex_Sans, Merriweather } from 'next/font/google';
 
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
-import { TooltipProvider } from '@/components/ui/tooltip';
+import Navbar from '@/shared/layout/Navbar/Navbar';
+import Footer from '@/shared/layout/Footer';
+import { TooltipProvider } from '@/shared/ui/tooltip';
 
 import './globals.css';
 
@@ -29,7 +29,7 @@ const serif = Merriweather({
 });
 
 export const metadata: Metadata = {
-  title: 'MovieShelf',
+  title: 'Movies Watchlist',
   description: 'Movie discovery and watchlist app',
 };
 
@@ -43,11 +43,11 @@ export default function RootLayout({
       lang="en"
       className={`${sans.variable} ${mono.variable} ${serif.variable} h-full antialiased`}
     >
-      <body className="bg-background text-foreground antialiased">
+      <body className="antialiased">
         <TooltipProvider>
           <div className="flex min-h-screen flex-col">
             <Navbar />
-            <main className="flex flex-1 flex-col pt-16">{children}</main>
+            <main className="flex flex-1 flex-col">{children}</main>
             <Footer />
           </div>
         </TooltipProvider>
