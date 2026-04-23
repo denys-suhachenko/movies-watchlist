@@ -4,10 +4,14 @@ import { MovieReviewForm } from './ReviewForm';
 
 type Review = {
   id: string;
-  userId: string;
   rating: number;
   text: string;
   createdAt: Date;
+  user: {
+    id: string;
+    name: string | null;
+    email: string;
+  };
 };
 
 type ReviewsListProps = {
@@ -52,7 +56,7 @@ export function ReviewsList({ movieId, reviews }: ReviewsListProps) {
                     <div className="flex items-start justify-between gap-4">
                       <div>
                         <p className="text-sm font-semibold">
-                          User: {review.userId}
+                          User: {review.user.name || review.user.email}
                         </p>
                         <p className="text-muted-foreground text-xs">
                           {formatReviewDate(new Date(review.createdAt))}

@@ -43,6 +43,19 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
     orderBy: {
       createdAt: 'desc',
     },
+    select: {
+      id: true,
+      rating: true,
+      text: true,
+      createdAt: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      },
+    },
   });
 
   return (
