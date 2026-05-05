@@ -12,7 +12,7 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from '@/shared/ui/carousel';
-import { formatRuntime } from '@/shared/lib/utils';
+import { formatCurrency, formatRuntime } from '@/shared/lib/utils';
 import {
   getMovie,
   getMovieCredits,
@@ -124,7 +124,7 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
               </div>
 
               <div className="text-white">
-                <h3 className="mb-2 text-xl font-semibold">Overview</h3>
+                <h2 className="mb-2 text-xl font-semibold">Overview</h2>
                 <p className="text-sm leading-7 md:text-base">
                   {movie.overview}
                 </p>
@@ -181,7 +181,10 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                             key={person.id}
                             className="min-w-0 basis-1/2 pl-4 sm:basis-1/4 lg:basis-1/5"
                           >
-                            <Link href={`/actors/${person.id}`}>
+                            <Link
+                              href={`/actors/${person.id}`}
+                              className="group"
+                            >
                               <Image
                                 src={`https://image.tmdb.org/t/p/w500${person.profile_path}`}
                                 alt={person.name}
@@ -192,7 +195,7 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                                 blurDataURL={POSTER_BLUR_DATA_URL}
                                 className="w-full rounded-md select-none"
                               />
-                              <h3 className="bg-muted mt-2 text-sm font-medium md:text-base">
+                              <h3 className="group-hover:text-primary mt-2 text-sm font-medium transition-colors duration-200 md:text-base">
                                 {person.name}
                               </h3>
                             </Link>
@@ -232,12 +235,12 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
 
                 <div>
                   <p className="text-muted-foreground">Budget</p>
-                  <p>{movie.budget}</p>
+                  <p>{formatCurrency(movie.budget)}</p>
                 </div>
 
                 <div>
                   <p className="text-muted-foreground">Revenue</p>
-                  <p>{movie.revenue}</p>
+                  <p>{formatCurrency(movie.revenue)}</p>
                 </div>
               </CardContent>
             </Card>
@@ -279,7 +282,7 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                       ) : (
                         <div className="bg-muted aspect-2/3 rounded-md" />
                       )}
-                      <h3 className="bg-muted mt-2 text-sm font-medium md:text-base">
+                      <h3 className="mt-2 text-sm font-medium md:text-base">
                         {movie.title}
                       </h3>
                     </Link>

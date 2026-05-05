@@ -49,8 +49,8 @@
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #333333;
+  --background: #fafafa;
+  --foreground: #030303;
 
   --card: #ffffff;
   --card-foreground: #333333;
@@ -58,9 +58,9 @@
   --popover: #ffffff;
   --popover-foreground: #333333;
 
-  --primary: #3b82f6;
+  --primary: #093c5d;
   --primary-foreground: #ffffff;
-  --primary-hover: oklch(0.55 0.19 259);
+  --primary-hover: #547a95;
 
   --secondary: #f3f4f6;
   --secondary-foreground: #4b5563;
@@ -76,7 +76,7 @@
 
   --border: #e5e7eb;
   --input: #e5e7eb;
-  --ring: #3b82f6;
+  --ring: #093c5d;
 
   --radius: 0.4rem;
 }
@@ -110,6 +110,22 @@
   --border: #404040;
   --input: #404040;
   --ring: #3b82f6;
+}
+
+@keyframes poster-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, -50%, 0);
+  }
+}
+
+.poster-marquee-track {
+  animation: poster-marquee var(--poster-marquee-duration, 36s) linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 @layer base {
