@@ -5,7 +5,7 @@ import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
-import { Genre } from '@/features/movies/types';
+import { Genre } from '@/shared/lib/types';
 
 import { GenreOption, GenresSelect } from './GenresSelect';
 
