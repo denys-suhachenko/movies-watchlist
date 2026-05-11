@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { BookmarkIcon } from 'lucide-react';
@@ -7,6 +6,13 @@ import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import Container from '@/shared/layout/Container';
+import { Toggle } from '@/shared/ui/toggle';
+import {
+  getTvShow,
+  getTvShowCredits,
+  getTvShowImages,
+  getTvShowRecommendations,
+} from '@/features/tv/api';
 import {
   Carousel,
   CarouselContent,
@@ -14,17 +20,11 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from '@/shared/ui/carousel';
-import { formatCurrency, formatRuntime } from '@/shared/lib/utils';
-import {
-  getMovie,
-  getMovieCredits,
-  getMovieRecommendations,
-} from '@/features/movies/api';
-import { ReviewsList } from '@/features/movies/ui';
-import { prisma } from '@/lib/prisma';
-import { Toggle } from '@/shared/ui/toggle';
+import { Separator } from '@/shared/ui/separator';
+import { ScrollArea, ScrollBar } from '@/shared/ui/scroll-area';
+import { TvShowSeasonsCard } from '@/features/tv/ui/TvShowSeasonCard';
 
-type MoviePageProps = {
+type TvShowPageProps = {
   params: Promise<{ id: string }>;
 };
 
@@ -34,69 +34,26 @@ const POSTER_BLUR_DATA_URL =
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 15"><rect width="10" height="15" fill="#e5e7eb"/></svg>',
   ).toString('base64');
 
-export async function generateMetadata({
-  params,
-}: MoviePageProps): Promise<Metadata> {
+export default async function TvShowDetailsPage({ params }: TvShowPageProps) {
   const { id } = await params;
-  const movie = await getMovie(id);
+  const show = await getTvShow(id);
+  const { cast } = await getTvShowCredits(id);
+  const { backdrops } = await getTvShowImages(id);
+  const { results: recommendations } = await getTvShowRecommendations(id);
 
-  return {
-    title: `${movie.title} | Movies Watchlist`,
-    description: movie.overview,
-    alternates: {
-      canonical: `/movies/${id}`,
-    },
-    openGraph: {
-      title: movie.title,
-      description: movie.overview || undefined,
-      images: [
-        {
-          url: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-          alt: `${movie.title} poster`,
-          width: 300,
-          height: 450,
-        },
-      ],
-    },
-  };
-}
-
-export default async function MovieDetailsPage({ params }: MoviePageProps) {
-  const { id } = await params;
-  const movie = await getMovie(id);
-  const { results: recommendations } = await getMovieRecommendations(id);
-  const { cast } = await getMovieCredits(id);
-  const reviews = await prisma.review.findMany({
-    where: {
-      movieId: id,
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-    select: {
-      id: true,
-      rating: true,
-      text: true,
-      createdAt: true,
-      user: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-        },
-      },
-    },
-  });
+  const lastSeason = show.seasons
+    .filter((season) => season.season_number > 0)
+    .sort((a, b) => b.season_number - a.season_number)[0];
 
   return (
     <div>
       <section className="relative z-0">
         {/* backdrop */}
         <div className="absolute inset-0 -z-10 overflow-hidden">
-          {movie.backdrop_path ? (
+          {show.backdrop_path ? (
             <Image
-              src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
-              alt={movie.title}
+              src={`https://image.tmdb.org/t/p/w500${show.backdrop_path}`}
+              alt={show.name}
               fill
               className="object-cover opacity-50"
             />
@@ -111,10 +68,10 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
           <div className="grid gap-8 md:grid-cols-[320px_1fr]">
             {/* Poster */}
             <div className="mx-auto w-full md:max-w-[320px]">
-              {movie.poster_path ? (
+              {show.poster_path ? (
                 <Image
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  alt={movie.title}
+                  src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
+                  alt={show.name}
                   width={300}
                   height={450}
                   className="h-auto w-full rounded-md object-cover shadow-2xl"
@@ -131,24 +88,29 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
             {/* Content */}
             <div className="flex flex-col justify-center gap-4">
               <h1 className="text-2xl font-bold text-white md:text-4xl">
-                {movie.title}
+                {show.name}
               </h1>
 
+              {show.tagline && (
+                <h2 className="text-lg font-medium text-gray-400 italic md:text-xl">
+                  {show.tagline}
+                </h2>
+              )}
+
               <ul className="flex flex-wrap items-center gap-3 text-sm text-white">
-                <li>Release date: {movie.release_date}</li>
-                <li>Runtime: {formatRuntime(movie.runtime)}</li>
-                <li>Rating: {movie.vote_average.toFixed(1)}</li>
+                <li>Release date: {show.first_air_date}</li>
+                <li>Rating: {show.vote_average.toFixed(1)}</li>
               </ul>
 
               <div className="flex flex-wrap gap-2 text-sm font-medium text-white">
-                {movie.genres.map((genre) => (
+                {show.genres.map((genre) => (
                   <Badge
                     key={genre.id}
                     variant="outline"
                     className="text-white"
                     asChild
                   >
-                    <Link href={`/movies?genre=${genre.id}`}>{genre.name}</Link>
+                    <Link href={`/tv?genre=${genre.id}`}>{genre.name}</Link>
                   </Badge>
                 ))}
               </div>
@@ -156,20 +118,14 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
               <div className="text-white">
                 <h2 className="mb-2 text-xl font-semibold">Overview</h2>
                 <p className="text-sm leading-7 md:text-base">
-                  {movie.overview}
+                  {show.overview}
                 </p>
               </div>
 
               <div className="flex gap-3 pt-2">
-                <Button
-                  asChild
-                  className="bg-yellow-300 text-black hover:bg-amber-200"
-                >
-                  <Link
-                    href={`https://www.imdb.com/title/${movie.imdb_id}`}
-                    target="_blank"
-                  >
-                    Open in IMDb
+                <Button asChild>
+                  <Link href={show.homepage} target="_blank">
+                    Open Homepage
                   </Link>
                 </Button>
               </div>
@@ -194,14 +150,27 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                   Bookmark
                 </Toggle>
               </div>
-              <p className="text-muted-foreground leading-7">
-                {movie.overview}
-              </p>
+              <p className="text-muted-foreground leading-7">{show.overview}</p>
             </section>
 
+            <Separator />
+
             <section>
-              <ReviewsList movieId={movie.id} reviews={reviews} />
+              <h2 className="mb-4 text-2xl font-semibold">Last Season</h2>
+
+              <TvShowSeasonsCard season={lastSeason} />
+
+              <div className="mt-4">
+                <Link
+                  href={`/tv/${show.id}/seasons`}
+                  className="hover:text-primary text-muted-foreground font-medium underline underline-offset-6 transition-colors duration-200"
+                >
+                  View all seasons
+                </Link>
+              </div>
             </section>
+
+            <Separator />
 
             <section>
               <h2 className="mb-4 text-2xl font-semibold">Top Cast</h2>
@@ -239,6 +208,9 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                               <h3 className="group-hover:text-primary mt-2 text-sm font-medium transition-colors duration-200 md:text-base">
                                 {person.name}
                               </h3>
+                              <h4 className="text-muted-foreground text-sm">
+                                {person.character}
+                              </h4>
                             </Link>
                           </CarouselItem>
                         ),
@@ -249,6 +221,34 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                   <CarouselNext className="bg-primary right-0 flex -translate-y-10! text-white md:-translate-y-8!" />
                 </Carousel>
               </div>
+            </section>
+
+            <Separator />
+
+            <section>
+              <h2 className="mb-4 text-2xl font-semibold">Media</h2>
+
+              <ScrollArea className="ring-foreground/10 w-full rounded-md bg-white whitespace-nowrap shadow-xs ring-1">
+                <div className="flex w-max gap-4 p-4">
+                  {backdrops.map((img) => (
+                    <div
+                      key={img.file_path}
+                      className="relative aspect-video h-64 shrink-0 overflow-hidden rounded-md bg-neutral-100"
+                      style={{ aspectRatio: img.aspect_ratio }}
+                    >
+                      <Image
+                        src={`https://image.tmdb.org/t/p/w500${img.file_path}`}
+                        alt="Backdrop"
+                        fill
+                        sizes="288px"
+                        className="object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
             </section>
           </div>
 
@@ -261,35 +261,68 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
               <CardContent className="space-y-4 px-6 text-sm">
                 <div>
                   <p className="text-muted-foreground">Release date</p>
-                  <p>{movie.release_date}</p>
+                  <p>{show.first_air_date}</p>
+                </div>
+
+                <div>
+                  <p className="text-muted-foreground">Number of episodes</p>
+                  <p>{show.number_of_episodes}</p>
+                </div>
+
+                <div>
+                  <p className="text-muted-foreground">Number of seasons</p>
+                  <p>{show.number_of_seasons}</p>
                 </div>
 
                 <div>
                   <p className="text-muted-foreground">Status</p>
-                  <p>{movie.status}</p>
+                  <p>{show.status}</p>
                 </div>
 
                 <div>
                   <p className="text-muted-foreground">Original language</p>
-                  <p>{movie.original_language}</p>
+                  <p>{show.original_language}</p>
                 </div>
 
                 <div>
-                  <p className="text-muted-foreground">Budget</p>
-                  <p>{formatCurrency(movie.budget)}</p>
+                  <p className="text-muted-foreground">Type</p>
+                  <p>{show.type}</p>
                 </div>
 
                 <div>
-                  <p className="text-muted-foreground">Revenue</p>
-                  <p>{formatCurrency(movie.revenue)}</p>
+                  <p className="text-muted-foreground">Network</p>
+                  <div className="mt-2">
+                    {show.networks.map((network) => (
+                      <div
+                        key={network.id}
+                        className="flex h-10 w-24 items-center justify-center"
+                      >
+                        {network.logo_path ? (
+                          <img
+                            src={`https://image.tmdb.org/t/p/w185${network.logo_path}`}
+                            alt={network.name}
+                            className="max-h-full max-w-full object-contain"
+                          />
+                        ) : (
+                          <span>{network.name}</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </CardContent>
             </Card>
           </aside>
         </div>
 
-        <section className="py-10">
-          <h2 className="mb-4 text-2xl font-semibold">You may also like</h2>
+        <Separator />
+
+        <section className="py-8">
+          <h2 className="mb-4 text-2xl font-semibold">
+            If you liked{' '}
+            <span className="text-muted-foreground italic">{show.name}</span>,
+            you might also like...
+          </h2>
 
           <div className="overflow-hidden">
             <Carousel
@@ -300,19 +333,19 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
               className="w-full px-12"
             >
               <CarouselContent className="-ml-4 w-full">
-                {recommendations.map((movie) => (
+                {recommendations.map((item) => (
                   <CarouselItem
-                    key={movie.id}
+                    key={item.id}
                     className="min-w-0 basis-1/2 pl-4 sm:basis-1/4 md:basis-1/6"
                   >
                     <Link
-                      href={`/movies/${movie.id}`}
+                      href={`/tv/${item.id}`}
                       className="block transition duration-300 hover:scale-95"
                     >
-                      {movie.poster_path ? (
+                      {item.poster_path ? (
                         <Image
-                          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                          alt={movie.title}
+                          src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+                          alt={item.name}
                           loading="eager"
                           width={300}
                           height={450}
@@ -324,7 +357,7 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
                         <div className="bg-muted aspect-2/3 rounded-md" />
                       )}
                       <h3 className="mt-2 text-sm font-medium md:text-base">
-                        {movie.title}
+                        {item.name}
                       </h3>
                     </Link>
                   </CarouselItem>

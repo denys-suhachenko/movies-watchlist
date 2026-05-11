@@ -26,7 +26,9 @@ export function MovieCard({ movie }: { movie: MovieListItem }) {
       ) : (
         <div className="bg-muted aspect-2/3 rounded-md shadow-xl/25" />
       )}
-      <h3 className="mt-3 font-medium">{movie.title}</h3>
+      <h3 className="group-hover:text-primary mt-3 font-medium">
+        {movie.title}
+      </h3>
       <div className="mt-1 flex items-center justify-between gap-4">
         <p className="text-sm text-gray-500">{movie.release_date}</p>
       </div>

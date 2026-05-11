@@ -1,18 +1,24 @@
 import Image from 'next/image';
+import Link from 'next/link';
+import { FilmIcon } from 'lucide-react';
 
 import Container from '@/shared/layout/Container';
 import {
   getActor,
-  getActorCredits,
+  getActorMovieCredits,
   getActorExternalIds,
+  getActorTvCredits,
+  getActorCredits,
+  getActorImages,
 } from '@/features/actors/api';
-import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { Button } from '@/shared/ui/button';
 
 import InstagramIcon from '@/public/icons/social/instagram.svg';
 import TikTokIcon from '@/public/icons/social/tiktok.svg';
 import TwitterIcon from '@/public/icons/social/twitter.svg';
+import { Separator } from '@/shared/ui/separator';
+import { ScrollArea, ScrollBar } from '@/shared/ui/scroll-area';
 
 type ActorPageProps = {
   params: Promise<{ id: string }>;
@@ -22,12 +28,13 @@ export default async function ActorPage({ params }: ActorPageProps) {
   const { id } = await params;
   const actor = await getActor(id);
   const credits = await getActorCredits(id);
+  const images = await getActorImages(id);
   const externalLinks = await getActorExternalIds(id);
 
   return (
     <Container className="py-8 md:py-16">
-      <div className="grid gap-8 md:grid-cols-[260px_1fr]">
-        <aside className="mx-auto w-full md:max-w-[260px]">
+      <div className="grid gap-8 lg:grid-cols-[320px_minmax(0,1fr)]">
+        <aside className="mx-auto w-full lg:max-w-[320px]">
           <div className="mb-8">
             {actor.profile_path ? (
               <Image
@@ -135,19 +142,57 @@ export default async function ActorPage({ params }: ActorPageProps) {
             <h2 className="mb-3 text-lg font-semibold md:text-xl">Biography</h2>
             <p className="whitespace-pre-line">{actor.biography}</p>
           </div>
-          <div>
+
+          <Separator />
+
+          <section className="hidden md:block">
+            <h2 className="mb-3 text-lg font-semibold md:text-xl">Photos</h2>
+
+            <div className="max-w-full overflow-hidden">
+              <ScrollArea className="ring-foreground/10 w-full rounded-md bg-white whitespace-nowrap shadow-xs ring-1">
+                <div className="flex w-max gap-4 p-4">
+                  {images.profiles.map((img) => (
+                    <div
+                      key={img.file_path}
+                      className="relative aspect-video h-64 shrink-0 overflow-hidden rounded-md bg-neutral-100"
+                      style={{ aspectRatio: img.aspect_ratio }}
+                    >
+                      <Image
+                        src={`https://image.tmdb.org/t/p/w500${img.file_path}`}
+                        alt="Backdrop"
+                        fill
+                        sizes="288px"
+                        className="object-cover"
+                        loading="eager"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
+            </div>
+          </section>
+
+          <Separator />
+
+          <section>
             <h2 className="mb-3 text-lg font-semibold md:text-xl">Known for</h2>
-            <div className="md: grid grid-cols-2 gap-5 md:grid-cols-6">
+            <div className="md: grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-5">
               {credits.cast.map((movie, index) => (
                 <Link
-                  key={`${movie.id}-${index}`}
-                  href={`/movies/${movie.id}`}
+                  key={`movie-${movie.id}-${index}`}
+                  href={
+                    movie.media_type === 'movie'
+                      ? `/movies/${movie.id}`
+                      : `/tv/${movie.id}`
+                  }
                   className="group"
                 >
                   {movie.poster_path ? (
                     <Image
                       src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                      alt={movie.title}
+                      alt={`Credit: ${movie.title}`}
                       loading="eager"
                       width={300}
                       height={450}
@@ -155,7 +200,7 @@ export default async function ActorPage({ params }: ActorPageProps) {
                     />
                   ) : (
                     <div className="text-muted-foreground flex aspect-2/3 w-full items-center justify-center rounded-md bg-gray-200 text-sm shadow-md/10 select-none">
-                      No image
+                      <FilmIcon className="size-8" />
                     </div>
                   )}
                   <h3 className="mt-2 text-center text-sm font-medium">
@@ -164,7 +209,7 @@ export default async function ActorPage({ params }: ActorPageProps) {
                 </Link>
               ))}
             </div>
-          </div>
+          </section>
         </div>
       </div>
     </Container>

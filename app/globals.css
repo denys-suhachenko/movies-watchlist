@@ -58,7 +58,7 @@
   --popover: #ffffff;
   --popover-foreground: #333333;
 
-  --primary: #093c5d;
+  --primary: #3b82f6;
   --primary-foreground: #ffffff;
   --primary-hover: #547a95;
 
@@ -76,7 +76,7 @@
 
   --border: #e5e7eb;
   --input: #e5e7eb;
-  --ring: #093c5d;
+  --ring: #3b82f6;
 
   --radius: 0.4rem;
 }

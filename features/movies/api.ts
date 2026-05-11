@@ -1,6 +1,7 @@
 import { baseQuery } from '@/shared/api/tmdb';
 
-import { Genre, Movie, MovieCredits, MovieListItem } from './types';
+import { Movie, MovieCredits, MovieListItem } from './types';
+import { Genre } from '@/shared/lib/types';
 
 type MoviesListResponse = {
   page: number;

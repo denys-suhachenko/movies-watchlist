@@ -1,6 +1,6 @@
 import { MoviesGrid } from '@/features/movies/ui';
-import { Pagination } from '@/features/movies/ui';
 import { fetchMovies } from '@/features/movies/api';
+import { Pagination } from '@/shared/ui/Pagination';
 
 type MoviesAsyncProps = {
   query?: string;

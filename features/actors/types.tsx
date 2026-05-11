@@ -63,6 +63,7 @@ export type ActorCastCredit = {
   character: string;
   credit_id: string;
   order: number;
+  media_type?: 'movie' | 'tv';
 };
 
 export type ActorCrewCredit = {

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { UserIcon } from 'lucide-react';
 
 import { ActorListItem } from '../types';
 
@@ -21,12 +22,16 @@ export function ActorCard({ actor }: { actor: ActorListItem }) {
           height={450}
           placeholder="blur"
           blurDataURL={POSTER_BLUR_DATA_URL}
-          className="w-full rounded-md shadow-xl/20 duration-200 group-hover:brightness-80"
+          className="w-full rounded-md shadow-xl/10 duration-200 group-hover:brightness-80"
         />
       ) : (
-        <div className="bg-muted aspect-2/3 rounded-md shadow-xl/25" />
+        <div className="text-muted-foreground flex aspect-2/3 items-center justify-center rounded-md bg-gray-200 shadow-xl/10 duration-200 group-hover:brightness-95">
+          <UserIcon size={72} />
+        </div>
       )}
-      <h3 className="mt-3 font-medium">{actor.name}</h3>
+      <h3 className="group-hover:text-primary mt-3 font-medium">
+        {actor.name}
+      </h3>
     </Link>
   );
 }
