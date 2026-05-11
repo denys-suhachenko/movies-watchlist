@@ -44,8 +44,6 @@ export async function createReviewAction(
     };
   }
 
-  const userId = 'mock-user';
-
   try {
     await prisma.review.create({
       data: {
@@ -65,6 +63,42 @@ export async function createReviewAction(
   }
 
   revalidatePath(`/movies/${result.data.movieId}`);
+
+  return {
+    error: '',
+    success: true,
+  };
+}
+
+export async function addToWatchlist(movieId: string) {
+  const session = await getOptionalSession();
+
+  if (!session?.userId) {
+    return {
+      error: 'User must be signed in!',
+      success: false,
+    };
+  }
+
+  try {
+    await prisma.watchlist.create({
+      data: {
+        movieId,
+        userId: session.userId,
+      },
+    });
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (e.code === 'P2002') {
+        return {
+          error: 'You have already added this movie to watchlist',
+          success: false,
+        };
+      }
+    }
+  }
+
+  revalidatePath(`/movies/${movieId}`);
 
   return {
     error: '',

@@ -42,5 +42,6 @@ model Watchlist {
   movieId   String
 
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  movie     Int      @unique
+  
+  @@unique([userId, movieId])
 }

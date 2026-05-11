@@ -1,14 +1,14 @@
 'use client';
 
 import { useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 
 import { Label } from '@/shared/ui/label';
 import { Textarea } from '@/shared/ui/textarea';
 import { Button } from '@/shared/ui/button';
-import { Input } from '@/shared/ui/input';
+import { Rating } from '@/shared/ui/rating';
 
 import { createReviewAction, ActionState } from '../actions';
-import { useFormStatus } from 'react-dom';
 
 type ReviewFormProps = {
   movieId: number;
@@ -22,15 +22,15 @@ const initialState = {
 export function MovieReviewForm({ movieId }: ReviewFormProps) {
   const [formState, formAction] = useActionState(handleAction, initialState);
 
-  function handleAction(prevState: ActionState, data: FormData) {
+  function handleAction(_: ActionState, data: FormData) {
     return createReviewAction(String(movieId), data);
   }
 
   return (
     <form action={formAction} className="space-y-6">
       <div className="space-y-2">
-        <Label htmlFor="rating">Your rating</Label>
-        <Input id="rating" name="rating" type="number" />
+        <Label>Your rating</Label>
+        <Rating name="rating" defaultValue={0} />
       </div>
 
       <div className="space-y-2">

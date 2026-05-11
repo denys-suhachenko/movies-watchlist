@@ -102,3 +102,15 @@ export type MovieListItem = {
   vote_average: number;
   vote_count: number;
 };
+
+export type MovieReview = {
+  id: string;
+  rating: number;
+  text: string;
+  createdAt: Date;
+  user: {
+    id: string;
+    name: string | null;
+    email: string;
+  };
+};

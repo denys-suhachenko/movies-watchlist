@@ -1,5 +1,7 @@
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { BookmarkIcon } from 'lucide-react';
 
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
@@ -20,6 +22,7 @@ import {
 } from '@/features/movies/api';
 import { ReviewsList } from '@/features/movies/ui';
 import { prisma } from '@/lib/prisma';
+import { Toggle } from '@/shared/ui/toggle';
 
 type MoviePageProps = {
   params: Promise<{ id: string }>;
@@ -30,6 +33,33 @@ const POSTER_BLUR_DATA_URL =
   Buffer.from(
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 15"><rect width="10" height="15" fill="#e5e7eb"/></svg>',
   ).toString('base64');
+
+export async function generateMetadata({
+  params,
+}: MoviePageProps): Promise<Metadata> {
+  const { id } = await params;
+  const movie = await getMovie(id);
+
+  return {
+    title: `${movie.title} | Movies Watchlist`,
+    description: movie.overview,
+    alternates: {
+      canonical: `/movies/${id}`,
+    },
+    openGraph: {
+      title: movie.title,
+      description: movie.overview || undefined,
+      images: [
+        {
+          url: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+          alt: `${movie.title} poster`,
+          width: 300,
+          height: 450,
+        },
+      ],
+    },
+  };
+}
 
 export default async function MovieDetailsPage({ params }: MoviePageProps) {
   const { id } = await params;
@@ -152,7 +182,18 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
         <div className="grid gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_320px]">
           <div className="min-w-0 space-y-8">
             <section>
-              <h2 className="mb-3 text-2xl font-semibold">Overview</h2>
+              <div className="mb-3 flex items-center justify-between">
+                <h2 className="text-2xl font-semibold">Overview</h2>
+                <Toggle
+                  aria-label="Toggle bookmark"
+                  size="sm"
+                  variant="outline"
+                  className="bg-white"
+                >
+                  <BookmarkIcon className="group-data-[state=on]/toggle:fill-foreground" />
+                  Bookmark
+                </Toggle>
+              </div>
               <p className="text-muted-foreground leading-7">
                 {movie.overview}
               </p>

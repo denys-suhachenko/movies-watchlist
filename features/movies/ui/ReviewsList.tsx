@@ -1,39 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { Separator } from '@/shared/ui/separator';
-import { MovieReviewForm } from './ReviewForm';
+import { Rating } from '@/shared/ui/rating';
+import { formatReviewDate } from '@/shared/lib/utils';
 
-type Review = {
-  id: string;
-  rating: number;
-  text: string;
-  createdAt: Date;
-  user: {
-    id: string;
-    name: string | null;
-    email: string;
-  };
-};
+import { MovieReview } from '../types';
+
+import { MovieReviewForm } from './ReviewForm';
 
 type ReviewsListProps = {
   movieId: number;
-  reviews: Review[];
+  reviews: MovieReview[];
 };
-
-function formatReviewDate(date: Date) {
-  return new Intl.DateTimeFormat('uk-UA', {
-    dateStyle: 'medium',
-    timeStyle: 'short',
-  }).format(date);
-}
-
-function RatingStars({ rating }: { rating: number }) {
-  return (
-    <div className="text-sm font-medium">
-      {'★'.repeat(rating)}
-      <span className="text-muted-foreground">{'☆'.repeat(5 - rating)}</span>
-    </div>
-  );
-}
 
 export function ReviewsList({ movieId, reviews }: ReviewsListProps) {
   return (
@@ -63,7 +40,17 @@ export function ReviewsList({ movieId, reviews }: ReviewsListProps) {
                         </p>
                       </div>
 
-                      <RatingStars rating={review.rating} />
+                      <div className="flex items-center gap-x-2">
+                        <Rating
+                          name="rating"
+                          defaultValue={review.rating}
+                          size="sm"
+                          readonly
+                        />
+                        <div className="text-muted-foreground text-sm font-medium">
+                          {review.rating}
+                        </div>
+                      </div>
                     </div>
 
                     <p className="text-foreground text-sm leading-6">

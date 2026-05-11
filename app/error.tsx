@@ -1,5 +1,7 @@
 'use client';
 
+import { Button } from '@/shared/ui/button';
+
 type ErrorProps = {
   error: Error;
   reset: () => void;
@@ -17,12 +19,9 @@ export default function ErrorPage({ error, reset }: ErrorProps) {
           We couldn&apos;t load this page right now. Please try again.
         </p>
 
-        <button
-          onClick={() => reset()}
-          className="mt-6 inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700"
-        >
+        <Button size="lg" className="mt-6 px-6" onClick={() => reset()}>
           Retry
-        </button>
+        </Button>
       </div>
     </div>
   );

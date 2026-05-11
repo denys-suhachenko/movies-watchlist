@@ -56,7 +56,7 @@ function PosterStack({
       {posters.map((poster) => (
         <div
           key={poster.key}
-          className="relative aspect-[2/3] w-full shrink-0 overflow-hidden rounded-3xl"
+          className="relative aspect-2/3 w-full shrink-0 overflow-hidden rounded-3xl"
         >
           <Image
             src={poster.src}
