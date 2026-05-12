@@ -5,6 +5,7 @@ import Container from './Container';
 const navItems = [
   { href: '/', label: 'Home' },
   { href: '/movies', label: 'Movies' },
+  { href: '/tv', label: 'TV Shows' },
   { href: '/actors', label: 'Actors' },
 ];
 

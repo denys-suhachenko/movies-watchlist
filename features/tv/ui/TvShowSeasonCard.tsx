@@ -23,7 +23,7 @@ const POSTER_BLUR_DATA_URL =
 export function TvShowSeasonsCard({ season }: { season: TvShowSeason }) {
   return (
     <Card className="overflow-hidden rounded-2xl">
-      <div className="flex flex-col sm:flex-row">
+      <div className="flex flex-col p-4 sm:flex-row sm:gap-x-4">
         <div className="relative aspect-2/3 w-full shrink-0 sm:w-40">
           {season.poster_path ? (
             <Image
@@ -40,7 +40,7 @@ export function TvShowSeasonsCard({ season }: { season: TvShowSeason }) {
           )}
         </div>
 
-        <CardContent className="flex flex-1 flex-col p-5">
+        <CardContent className="flex flex-1 flex-col">
           <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
             <div>
               <h3 className="mb-1 text-xl font-semibold">{season.name}</h3>

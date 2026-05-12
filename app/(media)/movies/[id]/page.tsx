@@ -18,11 +18,16 @@ import { formatCurrency, formatRuntime } from '@/shared/lib/utils';
 import {
   getMovie,
   getMovieCredits,
+  getMovieImages,
   getMovieRecommendations,
 } from '@/features/movies/api';
 import { ReviewsList } from '@/features/movies/ui';
 import { prisma } from '@/lib/prisma';
 import { Toggle } from '@/shared/ui/toggle';
+import { ScrollArea, ScrollBar } from '@/shared/ui/scroll-area';
+import { Separator } from '@/shared/ui/separator';
+import { MediaGallery } from '@/shared/ui/MediaGallery';
+import { CastGallery } from '@/shared/ui/CastGallery';
 
 type MoviePageProps = {
   params: Promise<{ id: string }>;
@@ -65,6 +70,7 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
   const { id } = await params;
   const movie = await getMovie(id);
   const { results: recommendations } = await getMovieRecommendations(id);
+  const { backdrops } = await getMovieImages(id);
   const { cast } = await getMovieCredits(id);
   const reviews = await prisma.review.findMany({
     where: {
@@ -199,56 +205,24 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
               </p>
             </section>
 
-            <section>
-              <ReviewsList movieId={movie.id} reviews={reviews} />
-            </section>
+            <Separator />
 
             <section>
               <h2 className="mb-4 text-2xl font-semibold">Top Cast</h2>
+              <CastGallery cast={cast} />
+            </section>
 
-              <div className="overflow-hidden">
-                <Carousel
-                  opts={{
-                    align: 'start',
-                    loop: false,
-                  }}
-                  className="w-full px-12"
-                >
-                  <CarouselContent className="-ml-4 w-full">
-                    {cast.map(
-                      (person) =>
-                        person.profile_path && (
-                          <CarouselItem
-                            key={person.id}
-                            className="min-w-0 basis-1/2 pl-4 sm:basis-1/4 lg:basis-1/5"
-                          >
-                            <Link
-                              href={`/actors/${person.id}`}
-                              className="group"
-                            >
-                              <Image
-                                src={`https://image.tmdb.org/t/p/w500${person.profile_path}`}
-                                alt={person.name}
-                                loading="eager"
-                                width={300}
-                                height={450}
-                                placeholder="blur"
-                                blurDataURL={POSTER_BLUR_DATA_URL}
-                                className="w-full rounded-md select-none"
-                              />
-                              <h3 className="group-hover:text-primary mt-2 text-sm font-medium transition-colors duration-200 md:text-base">
-                                {person.name}
-                              </h3>
-                            </Link>
-                          </CarouselItem>
-                        ),
-                    )}
-                  </CarouselContent>
+            <Separator />
 
-                  <CarouselPrevious className="bg-primary left-0 flex -translate-y-10! text-white md:-translate-y-8!" />
-                  <CarouselNext className="bg-primary right-0 flex -translate-y-10! text-white md:-translate-y-8!" />
-                </Carousel>
-              </div>
+            <section>
+              <h2 className="mb-4 text-2xl font-semibold">Media</h2>
+              <MediaGallery images={backdrops} title={movie.title} />
+            </section>
+
+            <Separator />
+
+            <section>
+              <ReviewsList movieId={movie.id} reviews={reviews} />
             </section>
           </div>
 
@@ -276,12 +250,16 @@ export default async function MovieDetailsPage({ params }: MoviePageProps) {
 
                 <div>
                   <p className="text-muted-foreground">Budget</p>
-                  <p className="font-medium">{formatCurrency(movie.budget)}</p>
+                  <p className="font-medium">
+                    {formatCurrency(movie.budget, true)}
+                  </p>
                 </div>
 
                 <div>
                   <p className="text-muted-foreground">Revenue</p>
-                  <p className="font-medium">{formatCurrency(movie.revenue)}</p>
+                  <p className="font-medium">
+                    {formatCurrency(movie.revenue, true)}
+                  </p>
                 </div>
               </CardContent>
             </Card>

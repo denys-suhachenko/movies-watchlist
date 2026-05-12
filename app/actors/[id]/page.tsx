@@ -54,13 +54,15 @@ export default async function ActorPage({ params }: ActorPageProps) {
           </div>
 
           <Card className="sticky top-24 self-start py-6">
-            <CardHeader>
-              <CardTitle>Personal Info</CardTitle>
+            <CardHeader className="px-6">
+              <CardTitle className="text-lg font-semibold">
+                Personal Info
+              </CardTitle>
             </CardHeader>
 
-            <CardContent className="space-y-4 px-6 text-sm">
+            <CardContent className="space-y-4 px-6">
               <div>
-                <div className="text-muted-foreground">Known for</div>
+                <div className="font-medium">Known for</div>
                 <p>{actor.known_for_department}</p>
               </div>
 
@@ -143,12 +145,12 @@ export default async function ActorPage({ params }: ActorPageProps) {
             <p className="whitespace-pre-line">{actor.biography}</p>
           </div>
 
-          <Separator />
+          <Separator className="hidden md:block" />
 
           <section className="hidden md:block">
             <h2 className="mb-3 text-lg font-semibold md:text-xl">Photos</h2>
 
-            <div className="max-w-full overflow-hidden">
+            <div className="max-w-full">
               <ScrollArea className="ring-foreground/10 w-full rounded-md bg-white whitespace-nowrap shadow-xs ring-1">
                 <div className="flex w-max gap-4 p-4">
                   {images.profiles.map((img) => (

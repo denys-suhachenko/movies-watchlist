@@ -23,6 +23,8 @@ import {
 import { Separator } from '@/shared/ui/separator';
 import { ScrollArea, ScrollBar } from '@/shared/ui/scroll-area';
 import { TvShowSeasonsCard } from '@/features/tv/ui/TvShowSeasonCard';
+import { MediaGallery } from '@/shared/ui/MediaGallery';
+import { CastGallery } from '@/shared/ui/CastGallery';
 
 type TvShowPageProps = {
   params: Promise<{ id: string }>;
@@ -174,81 +176,14 @@ export default async function TvShowDetailsPage({ params }: TvShowPageProps) {
 
             <section>
               <h2 className="mb-4 text-2xl font-semibold">Top Cast</h2>
-
-              <div className="overflow-hidden">
-                <Carousel
-                  opts={{
-                    align: 'start',
-                    loop: false,
-                  }}
-                  className="w-full px-12"
-                >
-                  <CarouselContent className="-ml-4 w-full">
-                    {cast.map(
-                      (person) =>
-                        person.profile_path && (
-                          <CarouselItem
-                            key={person.id}
-                            className="min-w-0 basis-1/2 pl-4 sm:basis-1/4 lg:basis-1/5"
-                          >
-                            <Link
-                              href={`/actors/${person.id}`}
-                              className="group"
-                            >
-                              <Image
-                                src={`https://image.tmdb.org/t/p/w500${person.profile_path}`}
-                                alt={person.name}
-                                loading="eager"
-                                width={300}
-                                height={450}
-                                placeholder="blur"
-                                blurDataURL={POSTER_BLUR_DATA_URL}
-                                className="w-full rounded-md select-none"
-                              />
-                              <h3 className="group-hover:text-primary mt-2 text-sm font-medium transition-colors duration-200 md:text-base">
-                                {person.name}
-                              </h3>
-                              <h4 className="text-muted-foreground text-sm">
-                                {person.character}
-                              </h4>
-                            </Link>
-                          </CarouselItem>
-                        ),
-                    )}
-                  </CarouselContent>
-
-                  <CarouselPrevious className="bg-primary left-0 flex -translate-y-10! text-white md:-translate-y-8!" />
-                  <CarouselNext className="bg-primary right-0 flex -translate-y-10! text-white md:-translate-y-8!" />
-                </Carousel>
-              </div>
+              <CastGallery cast={cast} />
             </section>
 
             <Separator />
 
             <section>
               <h2 className="mb-4 text-2xl font-semibold">Media</h2>
-
-              <ScrollArea className="ring-foreground/10 w-full rounded-md bg-white whitespace-nowrap shadow-xs ring-1">
-                <div className="flex w-max gap-4 p-4">
-                  {backdrops.map((img) => (
-                    <div
-                      key={img.file_path}
-                      className="relative aspect-video h-64 shrink-0 overflow-hidden rounded-md bg-neutral-100"
-                      style={{ aspectRatio: img.aspect_ratio }}
-                    >
-                      <Image
-                        src={`https://image.tmdb.org/t/p/w500${img.file_path}`}
-                        alt="Backdrop"
-                        fill
-                        sizes="288px"
-                        className="object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
-
-                <ScrollBar orientation="horizontal" />
-              </ScrollArea>
+              <MediaGallery images={backdrops} title={show.name} />
             </section>
           </div>
 
@@ -291,7 +226,7 @@ export default async function TvShowDetailsPage({ params }: TvShowPageProps) {
 
                 <div>
                   <p className="text-muted-foreground">Network</p>
-                  <div className="mt-2">
+                  <div className="mt-2 flex items-center gap-1">
                     {show.networks.map((network) => (
                       <div
                         key={network.id}

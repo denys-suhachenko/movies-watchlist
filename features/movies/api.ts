@@ -2,6 +2,7 @@ import { baseQuery } from '@/shared/api/tmdb';
 
 import { Movie, MovieCredits, MovieListItem } from './types';
 import { Genre } from '@/shared/lib/types';
+import { TMDBImage } from '@/shared/types/media';
 
 type MoviesListResponse = {
   page: number;
@@ -21,6 +22,13 @@ type SearchMoviesParams = {
   query: string;
   page?: number;
   year?: string;
+};
+
+export type MovieImagesList = {
+  id: number;
+  backdrops: TMDBImage[];
+  logos: TMDBImage[];
+  posters: TMDBImage[];
 };
 
 export async function getMovies(params?: GetMoviesParams) {
@@ -80,4 +88,8 @@ export async function getMovieRecommendations(movieId: string) {
 
 export async function fetchUpcomingMovies() {
   return baseQuery<MoviesListResponse>(`/movie/upcoming`);
+}
+
+export async function getMovieImages(showId: string) {
+  return baseQuery<MovieImagesList>(`/movie/${showId}/images`);
 }

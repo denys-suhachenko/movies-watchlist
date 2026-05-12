@@ -24,7 +24,11 @@ export function formatRuntime(runtime: number | null) {
   return `${hours}h ${minutes}m`;
 }
 
-export function formatCurrency(value: number) {
+export function formatCurrency(value: number, showEmpty = false) {
+  if (!value && showEmpty) {
+    return '-';
+  }
+
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',

@@ -6,6 +6,7 @@ import {
   ProductionCountry,
   SpokenLanguage,
 } from '@/shared/lib/types';
+import { TMDBImage } from '@/shared/types/media';
 
 export type TvShowSeason = {
   air_date: string;
@@ -93,21 +94,11 @@ export type TvShowListItem = {
   vote_count: number;
 };
 
-export type TvShowImage = {
-  aspect_ratio: number;
-  height: number;
-  iso_639_1: string | null;
-  file_path: string;
-  vote_average: number;
-  vote_count: number;
-  width: number;
-};
-
 export type TvShowImagesList = {
   id: number;
-  backdrops: TvShowImage[];
-  logos: TvShowImage[];
-  posters: TvShowImage[];
+  backdrops: TMDBImage[];
+  logos: TMDBImage[];
+  posters: TMDBImage[];
 };
 
 export type TvShowEpisode = {
